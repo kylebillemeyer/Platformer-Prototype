@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Crawler.gd" type="Script" id=1]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 25.0
+
+[node name="Crawler" type="Path2D"]
+curve = null
+script = ExtResource( 1 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="PathFollow2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/Area2D"]
+shape = SubResource( 1 )
+

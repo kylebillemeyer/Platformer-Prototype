@@ -36,11 +36,19 @@ wait_time = 3.0
 
 [node name="Camera2D2" type="Camera2D" parent="."]
 current = true
+zoom = Vector2( 1.75, 1.75 )
+drag_margin_h_enabled = false
+drag_margin_v_enabled = false
 script = ExtResource( 4 )
+max_translate_distance = 500
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
 
 [connection signal="body_entered" from="Left Wall Detector" to="." method="_on_wall_detector_entered"]
 [connection signal="body_exited" from="Left Wall Detector" to="." method="_on_wall_detector_exited"]
 [connection signal="body_entered" from="Right Wall Detector2" to="." method="_on_wall_detector_entered"]
 [connection signal="body_exited" from="Right Wall Detector2" to="." method="_on_wall_detector_exited"]
-[connection signal="timeout" from="Rocket Cooldown Timer" to="." method="_on_Rocket_Cooldown_Timer_timeout"]
 [connection signal="timeout" from="Rocket Cooldown Timer" to="." method="_on_rocket_cooldown_timeout"]
+[connection signal="timeout" from="Rocket Cooldown Timer" to="." method="_on_Rocket_Cooldown_Timer_timeout"]
+[connection signal="timeout" from="Timer" to="Camera2D2" method="_on_Timer_timeout"]
