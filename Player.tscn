@@ -6,22 +6,30 @@
 [ext_resource path="res://Camera2D2.gd" type="Script" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 25, 50 )
+extents = Vector2( 12.5, 25 )
 
 [sub_resource type="GDScript" id=2]
 
 [node name="Player" type="KinematicBody2D"]
+collision_mask = 15
 script = ExtResource( 1 )
+run_speed = 300
+jump_height = 750
+wall_jump_height = 750
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 script = SubResource( 2 )
 
 [node name="Left Wall Detector" parent="." instance=ExtResource( 2 )]
-position = Vector2( -30, 0 )
+position = Vector2( -17.5, 0 )
+collision_layer = 1024
+collision_mask = 8
 
 [node name="Right Wall Detector2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 30, 0 )
+position = Vector2( 17.5, 0 )
+collision_layer = 1024
+collision_mask = 8
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2( 1.75, 1.75 )
@@ -37,13 +45,7 @@ wait_time = 3.0
 [node name="Camera2D2" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 1.75, 1.75 )
-drag_margin_h_enabled = false
-drag_margin_v_enabled = false
 script = ExtResource( 4 )
-max_translate_distance = 500
-
-[node name="Timer" type="Timer" parent="."]
-autostart = true
 
 [connection signal="body_entered" from="Left Wall Detector" to="." method="_on_wall_detector_entered"]
 [connection signal="body_exited" from="Left Wall Detector" to="." method="_on_wall_detector_exited"]
@@ -51,4 +53,3 @@ autostart = true
 [connection signal="body_exited" from="Right Wall Detector2" to="." method="_on_wall_detector_exited"]
 [connection signal="timeout" from="Rocket Cooldown Timer" to="." method="_on_rocket_cooldown_timeout"]
 [connection signal="timeout" from="Rocket Cooldown Timer" to="." method="_on_Rocket_Cooldown_Timer_timeout"]
-[connection signal="timeout" from="Timer" to="Camera2D2" method="_on_Timer_timeout"]

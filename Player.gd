@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 # Declare member variables here. Examples:
 export var run_speed = 400
+export var drop_speed = 20
 export var jump_height = 1000
 export var wall_jump_height = 1000
 export var rocket_jump_height = 1000
@@ -9,6 +10,7 @@ export var g = 20
 export var booster_fall_speed = 100
 var screen_size
 var velocity = Vector2()
+var on_floor = false
 var on_wall = false
 var wall_jump_on_cooldown = false
 var rocket_jump_on_cooldown = false
@@ -23,9 +25,13 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	velocity.x = 0
-	velocity.y += g
 	
-	if is_on_floor():
+	if (Input.is_action_pressed("move_down")):
+		velocity.y += g + drop_speed
+	else:
+		velocity.y += drop_speed
+	
+	if on_floor:
 		wall_jump_on_cooldown = false
 	
 	if Input.is_action_pressed("move_right"):
@@ -38,7 +44,7 @@ func _physics_process(delta):
 	var boosters = Input.is_action_pressed("boosters")
 	
 	# normal ground jump
-	if jump && is_on_floor():
+	if jump && on_floor:
 		velocity.y = -jump_height
 	# wall jump
 	elif jump && on_wall && !wall_jump_on_cooldown:
@@ -46,15 +52,31 @@ func _physics_process(delta):
 		wall_jump_on_cooldown = true
 	# rocket boost
 	elif rocket && !rocket_jump_on_cooldown:
-		velocity.y = -rocket_jump_height
+		#velocity.y = -rocket_jump_height
 		rocket_jump_on_cooldown = true
 		rocket_timer.start()
 	# boosters
-	elif boosters && velocity.y > booster_fall_speed && !is_on_floor():
-		velocity.y = booster_fall_speed
+	elif boosters && velocity.y > booster_fall_speed && !on_floor:
+		#velocity.y = booster_fall_speed
+		pass
 	
-	#move_and_collide(velocity * delta)
-	velocity = move_and_slide(velocity, Vector2(0, -1))
+	var gt = get_global_transform()
+	var motion = velocity * delta
+	var result = Physics2DTestMotionResult.new()
+	var collision = Physics2DServer.body_test_motion(get_rid(), gt, velocity * delta, true, 0.08, result)
+	
+	if (collision && result.get_collider().get_collision_layer() == 16): 
+		velocity = velocity.bounce(result.get_collision_normal())
+		wall_jump_on_cooldown = false
+		gt[2] += velocity * delta
+		set_global_transform(gt)
+	elif (collision):
+		on_floor = result.get_collider().get_collision_layer() == 4
+		move_and_slide(velocity)
+	else:
+		on_floor = false
+		gt[2] += velocity * delta
+		set_global_transform(gt)
 	
 func _on_wall_detector_entered(body):
 	#print_debug("enter: " + body.get_name())
