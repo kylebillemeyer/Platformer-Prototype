@@ -23,4 +23,3 @@ scale = Vector2( 2, 1 )
 [node name="High" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1300, 300 )
 scale = Vector2( 4, 1 )
-

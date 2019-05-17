@@ -8,28 +8,33 @@ export var wall_jump_height = 1000
 export var rocket_jump_height = 1000
 export var g = 20
 export var booster_fall_speed = 100
-var screen_size
+
+var initial_jump_velocity
+
 var velocity = Vector2()
 var on_floor = false
 var on_wall = false
 var wall_jump_on_cooldown = false
 var rocket_jump_on_cooldown = false
 var rocket_timer
+var collisionShape
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	screen_size = get_viewport_rect().size
 	velocity = Vector2()
 	rocket_timer = get_node("Rocket Cooldown Timer")
+	collisionShape = get_node("CollisionShape2D")
+	
+	initial_jump_velocity = sqrt(2 * g * (jump_height + 25)) # + 25 so the height is calculated from the players feet
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	velocity.x = 0
 	
 	if (Input.is_action_pressed("move_down")):
-		velocity.y += g + drop_speed
+		velocity.y += (g + drop_speed) * delta 
 	else:
-		velocity.y += drop_speed
+		velocity.y += g * delta
 	
 	if on_floor:
 		wall_jump_on_cooldown = false
@@ -45,7 +50,7 @@ func _physics_process(delta):
 	
 	# normal ground jump
 	if jump && on_floor:
-		velocity.y = -jump_height
+		velocity.y = -initial_jump_velocity
 	# wall jump
 	elif jump && on_wall && !wall_jump_on_cooldown:
 		velocity.y = -wall_jump_height
@@ -72,11 +77,15 @@ func _physics_process(delta):
 		set_global_transform(gt)
 	elif (collision):
 		on_floor = result.get_collider().get_collision_layer() == 4
-		move_and_slide(velocity)
+		move_and_slide(velocity, Vector2(0, -1))
 	else:
 		on_floor = false
 		gt[2] += velocity * delta
 		set_global_transform(gt)
+		
+func _draw():
+	var extents = collisionShape.get_shape().get_extents()
+	draw_rect(Rect2(extents * -1, extents * 2), Color.violet, true)
 	
 func _on_wall_detector_entered(body):
 	#print_debug("enter: " + body.get_name())
@@ -88,3 +97,8 @@ func _on_wall_detector_exited(body):
 	
 func _on_rocket_cooldown_timeout():
 	rocket_jump_on_cooldown = false
+	
+func kill():
+	# this code relies on the parent node being a room node
+	var room = get_parent().reset_level()
+	

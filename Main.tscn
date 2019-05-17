@@ -31,4 +31,3 @@ scale = Vector2( 1.5, 1 )
 [node name="Floor3" parent="." instance=ExtResource( 2 )]
 position = Vector2( 700, 600 )
 scale = Vector2( 1.5, 1 )
-
