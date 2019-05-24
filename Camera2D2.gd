@@ -16,7 +16,7 @@ func _ready():
 	# This assume parent structure of /room/player/camera
 	var room = get_parent().get_parent()
 	var room_x = room.get_global_position().x
-	var room_y = room.get_global_position().y
+	var room_y = room.get_global_position().y - room.height
 	var room_center_x = room_x + room.width / 2
 	var room_center_y = room_y + room.height / 2
 	

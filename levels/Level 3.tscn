@@ -1,8 +1,151 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Room.tscn" type="PackedScene" id=1]
+[ext_resource path="res://StaticFloor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Spikes.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Pike.tscn" type="PackedScene" id=4]
 
 [node name="Level 3" type="Node2D"]
 
 [node name="Room" parent="." instance=ExtResource( 1 )]
-width = 2000
+width = 7050
+entrance_pos = Vector2( 3500, -25 )
+exit_pos = Vector2( 6900, -40 )
+
+[node name="StaticFloor" parent="." instance=ExtResource( 2 )]
+position = Vector2( 3525, 25 )
+scale = Vector2( 141, 1 )
+
+[node name="Spikes" parent="." instance=ExtResource( 3 )]
+position = Vector2( 625, -25 )
+unit_height = 2
+
+[node name="Spikes2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 1050, -25 )
+unit_width = 1
+spikes_on_right = true
+spikes_on_left = true
+
+[node name="Spikes3" parent="." instance=ExtResource( 3 )]
+position = Vector2( 1325, -25 )
+unit_width = 1
+spikes_on_right = true
+spikes_on_left = true
+
+[node name="Spikes4" parent="." instance=ExtResource( 3 )]
+position = Vector2( 1550, -25 )
+unit_width = 1
+spikes_on_right = true
+spikes_on_left = true
+
+[node name="Spikes7" parent="." instance=ExtResource( 3 )]
+position = Vector2( 2425, -50 )
+unit_width = 1
+unit_height = 2
+spikes_on_right = true
+spikes_on_left = true
+
+[node name="Spikes5" parent="." instance=ExtResource( 3 )]
+position = Vector2( 2925, -50 )
+unit_width = 1
+unit_height = 2
+spikes_on_right = true
+spikes_on_left = true
+
+[node name="Spikes6" parent="." instance=ExtResource( 3 )]
+position = Vector2( 2700, -50 )
+unit_width = 1
+unit_height = 2
+spikes_on_right = true
+spikes_on_left = true
+
+[node name="Spikes9" parent="." instance=ExtResource( 3 )]
+position = Vector2( 3825, -75 )
+unit_width = 1
+unit_height = 3
+spikes_on_right = true
+spikes_on_left = true
+
+[node name="Spikes10" parent="." instance=ExtResource( 3 )]
+position = Vector2( 4100, -75 )
+unit_width = 1
+unit_height = 3
+spikes_on_right = true
+spikes_on_left = true
+
+[node name="Spikes8" parent="." instance=ExtResource( 3 )]
+position = Vector2( 4325, -75 )
+unit_width = 1
+unit_height = 3
+spikes_on_right = true
+spikes_on_left = true
+
+[node name="Pike10" parent="." instance=ExtResource( 4 )]
+editor/display_folded = true
+position = Vector2( 5350, 0 )
+unit_height = 5
+
+[node name="Pike10" parent="Pike10" instance=ExtResource( 4 )]
+position = Vector2( 350, 0 )
+unit_height = 5
+
+[node name="Pike11" parent="Pike10" instance=ExtResource( 4 )]
+position = Vector2( 600, 0 )
+unit_height = 5
+
+[node name="Pike12" parent="Pike10" instance=ExtResource( 4 )]
+position = Vector2( 750, 0 )
+unit_height = 5
+
+[connection signal="body_entered" from="Spikes/Spike" to="Spikes/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes/Spike2" to="Spikes/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes/Spike3" to="Spikes/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes2/Spike" to="Spikes2/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes2/Spike2" to="Spikes2/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes2/Spike3" to="Spikes2/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes3/Spike" to="Spikes3/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes3/Spike2" to="Spikes3/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes3/Spike3" to="Spikes3/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes4/Spike" to="Spikes4/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes4/Spike2" to="Spikes4/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes4/Spike3" to="Spikes4/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes7/Spike" to="Spikes7/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes7/Spike2" to="Spikes7/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes7/Spike3" to="Spikes7/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes7/Spike4" to="Spikes7/Spike4" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes7/Spike5" to="Spikes7/Spike5" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes5/Spike" to="Spikes5/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes5/Spike2" to="Spikes5/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes5/Spike3" to="Spikes5/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes5/Spike4" to="Spikes5/Spike4" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes5/Spike5" to="Spikes5/Spike5" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes6/Spike" to="Spikes6/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes6/Spike2" to="Spikes6/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes6/Spike3" to="Spikes6/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes6/Spike4" to="Spikes6/Spike4" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes6/Spike5" to="Spikes6/Spike5" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes9/Spike" to="Spikes9/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes9/Spike2" to="Spikes9/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes9/Spike3" to="Spikes9/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes9/Spike4" to="Spikes9/Spike4" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes9/Spike5" to="Spikes9/Spike5" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes9/Spike6" to="Spikes9/Spike6" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes9/Spike7" to="Spikes9/Spike7" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes10/Spike" to="Spikes10/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes10/Spike2" to="Spikes10/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes10/Spike3" to="Spikes10/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes10/Spike4" to="Spikes10/Spike4" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes10/Spike5" to="Spikes10/Spike5" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes10/Spike6" to="Spikes10/Spike6" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes10/Spike7" to="Spikes10/Spike7" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes8/Spike" to="Spikes8/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes8/Spike2" to="Spikes8/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes8/Spike3" to="Spikes8/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes8/Spike4" to="Spikes8/Spike4" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes8/Spike5" to="Spikes8/Spike5" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes8/Spike6" to="Spikes8/Spike6" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Spikes8/Spike7" to="Spikes8/Spike7" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Pike10/Pike10/Spike" to="Pike10/Pike10/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Pike10/Pike11/Spike" to="Pike10/Pike11/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Pike10/Pike12/Spike" to="Pike10/Pike12/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Pike10/Spike" to="Pike10/Spike" method="_on_Spike_body_entered"]

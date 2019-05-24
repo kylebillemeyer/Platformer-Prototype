@@ -13,6 +13,8 @@ var go_to_next_level
 var go_to_reset_level
 var exit_shape
 
+var tile_size
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var wall_scene = load("res://Wall.tscn")
@@ -21,24 +23,27 @@ func _ready():
 	next_level = load(next_level_path)
 	
 	var left_wall = wall_scene.instance()
-	left_wall.set_scale(Vector2(1, height / 100.0))
-	left_wall.set_position(Vector2(5, height / 2.0))
+	var wall_extents = left_wall.get_node("CollisionShape2D").get_shape().get_extents()
+	tile_size = wall_extents * 2
+	
+	left_wall.set_scale(Vector2(1, height / tile_size.y))
+	left_wall.set_position(Vector2(-tile_size.x / 2.0, height / 2.0 - height))
 	add_child(left_wall)
 	
 	var right_wall = wall_scene.instance()
-	right_wall.set_scale(Vector2(1, height / 100.0))
-	right_wall.set_position(Vector2(width - 5, height / 2.0))
+	right_wall.set_scale(Vector2(1, height / tile_size.y))
+	right_wall.set_position(Vector2(width + (tile_size.x / 2.0), height / 2.0 - height))
 	add_child(right_wall)
 	
 	var ceiling = floor_scene.instance()
-	ceiling.set_scale(Vector2(width / 100.0, 1))
-	ceiling.set_position(Vector2(width / 2.0, 5))
+	ceiling.set_scale(Vector2(width / tile_size.x, 1))
+	ceiling.set_position(Vector2(width / 2.0, -tile_size.y / 2.0 - height))
 	add_child(ceiling)
 	
-	var ground = floor_scene.instance()
-	ground.set_scale(Vector2(width / 100.0, 1))
-	ground.set_position(Vector2(width / 2.0, height - 5))
-	add_child(ground)
+#	var ground = floor_scene.instance()
+#	ground.set_scale(Vector2(width / tile_size.x, 1))
+#	ground.set_position(Vector2(width / 2.0, tile_size.y / 2.0))
+#	add_child(ground)
 	
 	var player = player_scene.instance()
 	player.set_position(entrance_pos)

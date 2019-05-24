@@ -5,7 +5,7 @@
 [ext_resource path="res://Camera2D2.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 20, 25 )
+extents = Vector2( 25, 25 )
 
 [sub_resource type="GDScript" id=2]
 
@@ -13,9 +13,9 @@ extents = Vector2( 20, 25 )
 collision_mask = 15
 script = ExtResource( 1 )
 run_speed = 500
-jump_height = 300
+jump_height = 250
+jump_width = 350
 wall_jump_height = 750
-g = 300
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -45,7 +45,6 @@ editor_draw_limits = true
 editor_draw_drag_margin = true
 script = ExtResource( 3 )
 
-[node name="Timer" type="Timer" parent="."]
 [connection signal="body_entered" from="Left Wall Detector" to="." method="_on_wall_detector_entered"]
 [connection signal="body_exited" from="Left Wall Detector" to="." method="_on_wall_detector_exited"]
 [connection signal="body_entered" from="Right Wall Detector2" to="." method="_on_wall_detector_entered"]

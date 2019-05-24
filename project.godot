@@ -89,15 +89,6 @@ aim_left={
  ]
 }
 
-[layer_names]
-
-2d_physics/layer_1="Player"
-2d_physics/layer_2="Wall Detectors"
-2d_physics/layer_3="Static Floor"
-2d_physics/layer_4="Bounce Floor"
-2d_physics/layer_5="Wall"
-2d_physics/layer_11="Enemy"
-
 [rendering]
 
 environment/default_environment="res://default_env.tres"
