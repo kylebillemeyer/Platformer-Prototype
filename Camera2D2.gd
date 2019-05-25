@@ -14,7 +14,7 @@ func _ready():
 	use_joystick = Input.is_joy_known(0)
 	
 	# This assume parent structure of /room/player/camera
-	var room = get_parent().get_parent()
+	var room = find_parent("Room")
 	var room_x = room.get_global_position().x
 	var room_y = room.get_global_position().y - room.height
 	var room_center_x = room_x + room.width / 2
