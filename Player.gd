@@ -1,17 +1,17 @@
 extends KinematicBody2D
 
 # Declare member variables here. Examples:
-export var run_speed = 400
-export var drop_speed = 20
 export var jump_height = 300
 export var jump_width = 300
-export var jump_and_return_time = 1
+export(float) var jump_and_return_time = 1.0
 export var wall_jump_height = 1000
 export var rocket_jump_height = 1000
 export var booster_fall_speed = 100
+export var drop_speed = 20
 
 var initial_jump_velocity
 
+var run_speed
 var velocity = Vector2()
 var on_floor = false
 var on_wall = false

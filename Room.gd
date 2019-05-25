@@ -1,75 +1,60 @@
-tool
 extends Node2D
 
 # Declare member variables here. Examples:
 export var width = 1000
 export var height = 500
-export var entrance_pos = Vector2(100, 475)
-export var exit_pos = Vector2(800, 455)
-export var next_level_path = "res://levels/Level 1.tscn"
+export(String) var default_spawn
 
-var next_level
 var go_to_next_level
 var go_to_reset_level
-var exit_shape
+var next_level_path
 
-var tile_size
+var levels = {}
+
+func set_default_spawn(path):
+	default_spawn = path
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var wall_scene = load("res://Wall.tscn")
-	var floor_scene = load("res://StaticFloor.tscn")
 	var player_scene = load("res://Player.tscn")
-	next_level = load(next_level_path)
-	
-	var left_wall = wall_scene.instance()
-	var wall_extents = left_wall.get_node("CollisionShape2D").get_shape().get_extents()
-	tile_size = wall_extents * 2
-	
-	left_wall.set_scale(Vector2(1, height / tile_size.y))
-	left_wall.set_position(Vector2(-tile_size.x / 2.0, height / 2.0 - height))
-	add_child(left_wall)
-	
-	var right_wall = wall_scene.instance()
-	right_wall.set_scale(Vector2(1, height / tile_size.y))
-	right_wall.set_position(Vector2(width + (tile_size.x / 2.0), height / 2.0 - height))
-	add_child(right_wall)
-	
-	var ceiling = floor_scene.instance()
-	ceiling.set_scale(Vector2(width / tile_size.x, 1))
-	ceiling.set_position(Vector2(width / 2.0, -tile_size.y / 2.0 - height))
-	add_child(ceiling)
-	
-#	var ground = floor_scene.instance()
-#	ground.set_scale(Vector2(width / tile_size.x, 1))
-#	ground.set_position(Vector2(width / 2.0, tile_size.y / 2.0))
-#	add_child(ground)
+	var spawn_door = get_node(default_spawn)
+	spawn_door.active = false
 	
 	var player = player_scene.instance()
-	player.set_position(entrance_pos)
+	player.set_position(spawn_door.get_position())
 	add_child(player)
 	
-	var exit = get_node("Exit")
-	exit.set_position(exit_pos)
-	exit_shape = get_node("Exit/CollisionShape2D")
+	for c in get_children():
+		if "Door" in c.get_name() && c.next_level_path:
+			var path_parts = c.next_level_path.rsplit("/")
+			var level_path = "res://levels/" + path_parts[0] + ".tscn"
+			var level = load(level_path)
+			levels[c.next_level_path] = level
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if go_to_next_level:	
+	if next_level_path:
+		var path_parts = next_level_path.rsplit("/")
+		var door_name = path_parts[1]
+		
 		var root = get_tree().root
 		var current_level = get_parent()
 		root.remove_child(current_level)
-		root.add_child(next_level.instance())
+		
+		var level = levels[next_level_path].instance()
+		level.get_node("Room").set_default_spawn(door_name)
+		root.add_child(level)
 		
 	if go_to_reset_level:
 		get_parent().get_tree().reload_current_scene()
+
+func change_level(level_path):
+	if (!level_path):
+		print("No level path assigned to door. Cannot change levels.")
+	elif !("/" in level_path):
+		print("Level path must be of form 'Level [x]/Door [y]'. Cannot change levels.")
+	else:
+		next_level_path = level_path
 		
 func reset_level():
 	go_to_reset_level = true
-		
-func _draw():
-	var extents = exit_shape.get_shape().get_extents()
-	draw_rect(Rect2(exit_pos - extents, extents * 2), Color.gray, true)
-
-func _on_level_exited(area):
-	go_to_next_level = true

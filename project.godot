@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Side Scroller Shooter"
-run/main_scene="res://levels/Level 2.tscn"
+run/main_scene="res://levels/Level 4.tscn"
 config/icon="res://icon.png"
 
 [input]
@@ -88,6 +88,14 @@ aim_left={
 "events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":2,"axis_value":-1.0,"script":null)
  ]
 }
+
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_3="Static Floor"
+2d_physics/layer_4="Static Wall"
+2d_physics/layer_19="Dynamic Areas"
+2d_physics/layer_20="Static Areas"
 
 [rendering]
 
