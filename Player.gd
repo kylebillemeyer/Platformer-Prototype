@@ -1,18 +1,13 @@
 extends KinematicBody2D
 
 # Declare member variables here. Examples:
-export var jump_height = 300
-export var jump_width = 300
-export(float) var jump_and_return_time = 1.0
 export var wall_jump_height = 1000
 export var rocket_jump_height = 1000
 export var booster_fall_speed = 100
 export var drop_speed = 20
 
-var initial_jump_velocity
-
 var run_speed
-var velocity = Vector2()
+var velocity
 var on_floor = false
 var on_wall = false
 var wall_jump_on_cooldown = false
@@ -21,8 +16,6 @@ var rocket_timer
 var collisionShape
 var jump_clock = 0
 var start_jump_clock = false
-var gravity
-var player_extents
 var launch_velocity # if set, will launch the player using this velocity once they hit the floor
 
 # Called when the node enters the scene tree for the first time.
@@ -31,17 +24,10 @@ func _ready():
 	rocket_timer = get_node("Rocket Cooldown Timer")
 	collisionShape = get_node("CollisionShape2D")
 	
-	player_extents = collisionShape.get_shape().get_extents()
-	
-	# Adding the half the player height so the jump height is 
-	# calculated from the players feet
-	initial_jump_velocity = 2 * (jump_height + player_extents.y) / (jump_and_return_time / 2.0)
-	gravity = initial_jump_velocity / (jump_and_return_time / 2.0)
-	
 	# Adding the player width to account for the fact that
 	# we want to make jump width from players right edge upon
 	# starting jump and the player's left edge upon landing. 
-	run_speed = (jump_width + (2 * player_extents.x)) / jump_and_return_time
+	run_speed = (Globals.jump_width + (2 * Globals.player_extents.x)) / Globals.jump_and_return_time
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
@@ -51,9 +37,9 @@ func _physics_process(delta):
 		jump_clock += delta
 	
 	if (Input.is_action_pressed("move_down")):
-		velocity.y += (gravity + drop_speed) * delta 
+		velocity.y += (Globals.gravity + drop_speed) * delta 
 	else:
-		velocity.y += gravity * delta
+		velocity.y += Globals.gravity * delta
 		
 	if on_floor:
 		wall_jump_on_cooldown = false
@@ -72,7 +58,7 @@ func _physics_process(delta):
 	
 	# normal ground jump
 	if jump && on_floor:
-		velocity.y = -initial_jump_velocity
+		velocity.y = -Globals.initial_jump_velocity
 		jump_clock = position.x
 		start_jump_clock = true
 	# wall jump
@@ -108,9 +94,9 @@ func _physics_process(delta):
 		set_global_transform(gt)
 		
 func are_feet_on_floor(collisionResult) -> bool:
-	var bottom_left = global_position + Vector2(-player_extents.x, player_extents.y)
-	var bottom_center = global_position + Vector2(0, player_extents.y)
-	var bottom_right = global_position + player_extents
+	var bottom_left = global_position + Vector2(-Globals.player_extents.x, Globals.player_extents.y)
+	var bottom_center = global_position + Vector2(0, Globals.player_extents.y)
+	var bottom_right = global_position + Globals.player_extents
 	
 	var space_state = get_world_2d().get_direct_space_state()
 	var bot_left_cast_result = space_state.intersect_ray(bottom_left, bottom_left + Vector2(0, 1), [self])
@@ -127,7 +113,7 @@ func did_ray_hit_floor(cast_result) -> bool:
 	return cast_result && cast_result["collider"].get_collision_layer() == 4
 		
 func _draw():
-	draw_rect(Rect2(player_extents * -1, player_extents * 2), Color.violet, true)
+	draw_rect(Rect2(Globals.player_extents * -1, Globals.player_extents * 2), Color.violet, true)
 	
 func _on_wall_detector_entered(body):
 	#print_debug("enter: " + body.get_name())

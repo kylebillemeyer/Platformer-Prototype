@@ -1,0 +1,98 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Room.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Door.tscn" type="PackedScene" id=2]
+[ext_resource path="res://StaticFloor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://FlameWheel.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Spikes.tscn" type="PackedScene" id=5]
+
+[node name="Node2D" type="Node2D"]
+__meta__ = {
+"_edit_horizontal_guides_": [ -700.0 ],
+"_edit_vertical_guides_": [ 0.0, 2500.0 ]
+}
+
+[node name="Room" parent="." instance=ExtResource( 1 )]
+width = 9600
+default_spawn = "Door 3"
+
+[node name="Door 1" parent="Room" instance=ExtResource( 2 )]
+position = Vector2( 150, -50 )
+next_level_path = "Level 5/Door 2"
+
+[node name="Door 2" parent="Room" instance=ExtResource( 2 )]
+position = Vector2( 2900, -50 )
+next_level_path = "Level 7/Door 1"
+
+[node name="Door 3" parent="Room" instance=ExtResource( 2 )]
+position = Vector2( 1450, -250 )
+next_level_path = "Level 7/Door 1"
+
+[node name="StaticFloor" parent="Room" instance=ExtResource( 3 )]
+position = Vector2( 850, 25 )
+scale = Vector2( 34, 1 )
+
+[node name="StaticFloor4" parent="Room" instance=ExtResource( 3 )]
+position = Vector2( 2800, 25 )
+scale = Vector2( 10, 1 )
+
+[node name="FlameWheel" parent="Room" instance=ExtResource( 4 )]
+position = Vector2( 900, 25 )
+rotation = 0.0
+unit_radius = 6
+spacing = 25.0
+rotations_per_second = 0.75
+flame_radius = 12.5
+
+[node name="StaticFloor2" parent="Room" instance=ExtResource( 3 )]
+position = Vector2( 1975, 25 )
+
+[node name="FlameWheel2" parent="Room" instance=ExtResource( 4 )]
+position = Vector2( 1975, 25 )
+rotation = 0.0
+unit_radius = 6
+spacing = 25.0
+rotations_per_second = 0.5
+flame_radius = 12.5
+
+[node name="StaticFloor3" parent="Room" instance=ExtResource( 3 )]
+position = Vector2( 2275, 25 )
+
+[node name="FlameWheel3" parent="Room" instance=ExtResource( 4 )]
+position = Vector2( 2275, 25 )
+rotation = 0.0
+unit_radius = 6
+spacing = 25.0
+rotations_per_second = 0.5
+flame_radius = 12.5
+
+[node name="Spikes" parent="Room" instance=ExtResource( 5 )]
+position = Vector2( 1825, 50 )
+unit_width = 5
+unit_height = 0
+
+[node name="Spikes2" parent="Room" instance=ExtResource( 5 )]
+position = Vector2( 2125, 50 )
+unit_width = 5
+unit_height = 0
+
+[node name="Spikes3" parent="Room" instance=ExtResource( 5 )]
+position = Vector2( 2425, 50 )
+unit_width = 5
+unit_height = 0
+
+[connection signal="body_entered" from="Room/Spikes/Spike" to="Room/Spikes/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes/Spike2" to="Room/Spikes/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes/Spike3" to="Room/Spikes/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes/Spike4" to="Room/Spikes/Spike4" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes/Spike5" to="Room/Spikes/Spike5" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes2/Spike" to="Room/Spikes2/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes2/Spike2" to="Room/Spikes2/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes2/Spike3" to="Room/Spikes2/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes2/Spike4" to="Room/Spikes2/Spike4" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes2/Spike5" to="Room/Spikes2/Spike5" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes3/Spike" to="Room/Spikes3/Spike" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes3/Spike2" to="Room/Spikes3/Spike2" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes3/Spike3" to="Room/Spikes3/Spike3" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes3/Spike4" to="Room/Spikes3/Spike4" method="_on_Spike_body_entered"]
+[connection signal="body_entered" from="Room/Spikes3/Spike5" to="Room/Spikes3/Spike5" method="_on_Spike_body_entered"]

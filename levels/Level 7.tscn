@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Room.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Door.tscn" type="PackedScene" id=2]
+[ext_resource path="res://StaticFloor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ContactTile.tscn" type="PackedScene" id=4]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Room" parent="." instance=ExtResource( 1 )]
+default_spawn = "Door 1"
+
+[node name="Door 1" parent="Room" instance=ExtResource( 2 )]
+position = Vector2( 150, -350 )
+next_level_path = "Level 6/Door 2"
+
+[node name="Door 2" parent="Room" instance=ExtResource( 2 )]
+position = Vector2( 2050, -400 )
+next_level_path = "Level 8/Door 1"
+
+[node name="StaticFloor" parent="Room" instance=ExtResource( 3 )]
+position = Vector2( 250, -150 )
+scale = Vector2( 10, 6 )
+
+[node name="StaticFloor2" parent="Room" instance=ExtResource( 3 )]
+position = Vector2( 1350, -150 )
+scale = Vector2( 10, 6 )
+
+[node name="ContactTile" parent="Room" instance=ExtResource( 4 )]
+position = Vector2( 725, -275 )
+
+[node name="ContactTile2" parent="Room" instance=ExtResource( 4 )]
+position = Vector2( 775, -275 )
+
+[node name="ContactTile3" parent="Room" instance=ExtResource( 4 )]
+position = Vector2( 825, -275 )
+
+[node name="ContactTile4" parent="Room" instance=ExtResource( 4 )]
+position = Vector2( 875, -275 )
+
+[node name="StaticFloor3" parent="Room" instance=ExtResource( 3 )]
+position = Vector2( 800, -25 )
+scale = Vector2( 12, 1 )
+

@@ -28,7 +28,7 @@ func _on_Area2D_body_entered(body):
 	if body.get_name() == "Player":
 		# Adding the half the player height so the jump height is 
 		# calculated from the players feet
-		var launch_speed = sqrt(2 * (launch_height+body.player_extents.y) * body.gravity)
+		var launch_speed = sqrt(2 * (launch_height + Globals.player_extents.y) * Globals.gravity)
 		body.launch_when_on_floor(Vector2(0, -launch_speed))
 		
 func _on_Area2D_body_exited(body):

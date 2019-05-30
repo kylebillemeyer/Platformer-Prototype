@@ -12,9 +12,6 @@ extents = Vector2( 25, 25 )
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 15
 script = ExtResource( 1 )
-jump_height = 250
-jump_width = 350
-jump_and_return_time = 0.7
 wall_jump_height = 750
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -44,6 +41,7 @@ drag_margin_v_enabled = false
 editor_draw_limits = true
 editor_draw_drag_margin = true
 script = ExtResource( 3 )
+
 [connection signal="body_entered" from="Left Wall Detector" to="." method="_on_wall_detector_entered"]
 [connection signal="body_exited" from="Left Wall Detector" to="." method="_on_wall_detector_exited"]
 [connection signal="body_entered" from="Right Wall Detector2" to="." method="_on_wall_detector_entered"]

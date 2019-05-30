@@ -63,10 +63,12 @@ launch_height = 500.0
 
 [node name="BouncePad4" parent="Room" instance=ExtResource( 5 )]
 position = Vector2( 1275, -750 )
+unit_width = 1
 launch_height = 500.0
 
 [node name="BouncePad5" parent="Room" instance=ExtResource( 5 )]
 position = Vector2( 850, -750 )
+unit_width = 1
 launch_height = 500.0
 
 [node name="BouncePad3" parent="Room" instance=ExtResource( 5 )]
@@ -77,3 +79,4 @@ launch_height = 500.0
 [node name="StaticFloor6" parent="Room" instance=ExtResource( 3 )]
 position = Vector2( 250, -725 )
 scale = Vector2( 10, 1 )
+
