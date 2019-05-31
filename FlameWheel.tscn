@@ -5,4 +5,3 @@
 [node name="FlameWheel" type="Node2D"]
 rotation = 755.814
 script = ExtResource( 1 )
-

@@ -16,7 +16,8 @@ var rocket_timer
 var collisionShape
 var jump_clock = 0
 var start_jump_clock = false
-var launch_velocity # if set, will launch the player using this velocity once they hit the floor
+var on_floor_callback_body_queue = []
+var off_floor_callback_body_queue = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -29,69 +30,73 @@ func _ready():
 	# starting jump and the player's left edge upon landing. 
 	run_speed = (Globals.jump_width + (2 * Globals.player_extents.x)) / Globals.jump_and_return_time
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+var process_guard = 0
 func _physics_process(delta):
-	velocity.x = 0
-	
-	if (start_jump_clock):
-		jump_clock += delta
-	
-	if (Input.is_action_pressed("move_down")):
-		velocity.y += (Globals.gravity + drop_speed) * delta 
+	if (process_guard < Globals.process_guard):
+		process_guard += delta
 	else:
-		velocity.y += Globals.gravity * delta
+		velocity.x = 0
 		
-	if on_floor:
-		wall_jump_on_cooldown = false
+		if (start_jump_clock):
+			jump_clock += delta
 		
-		if launch_velocity:
-			velocity = launch_velocity
-	
-	if Input.is_action_pressed("move_right"):
-		velocity.x += run_speed
-	if Input.is_action_pressed("move_left"):
-		velocity.x -= run_speed
+		if (Input.is_action_pressed("move_down")):
+			velocity.y += (Globals.gravity + drop_speed) * delta 
+		else:
+			velocity.y += Globals.gravity * delta
+			
+		if on_floor:
+			wall_jump_on_cooldown = false
+			handle_on_floor_callbacks() 
 		
-	var jump = Input.is_action_just_pressed("jump")
-	var rocket = Input.is_action_just_pressed("rocket_jump")
-	var boosters = Input.is_action_pressed("boosters")
-	
-	# normal ground jump
-	if jump && on_floor:
-		velocity.y = -Globals.initial_jump_velocity
-		jump_clock = position.x
-		start_jump_clock = true
-	# wall jump
-	elif jump && on_wall && !wall_jump_on_cooldown:
-		velocity.y = -wall_jump_height
-		wall_jump_on_cooldown = true
-	# rocket boost
-	elif rocket && !rocket_jump_on_cooldown:
-		#velocity.y = -rocket_jump_height
-		rocket_jump_on_cooldown = true
-		rocket_timer.start()
-	# boosters
-	elif boosters && velocity.y > booster_fall_speed && !on_floor:
-		#velocity.y = booster_fall_speed
-		pass
-	
-	var gt = get_global_transform()
-	var motion = velocity * delta
-	var result = Physics2DTestMotionResult.new()
-	var collision = Physics2DServer.body_test_motion(get_rid(), gt, velocity * delta, true, 0.08, result)
-	
-	if (collision && result.get_collider().get_collision_layer() == 16): # hit wall object
-		velocity = velocity.bounce(result.get_collision_normal())
-		wall_jump_on_cooldown = false
-		gt[2] += velocity * delta
-		set_global_transform(gt)
-	elif (collision):
-		on_floor = are_feet_on_floor(result)
-		velocity = move_and_slide(velocity, Vector2(0, -1))
-	else:
-		on_floor = false
-		gt[2] += velocity * delta
-		set_global_transform(gt)
+		if Input.is_action_pressed("move_right"):
+			velocity.x += run_speed
+		if Input.is_action_pressed("move_left"):
+			velocity.x -= run_speed
+			
+		var jump = Input.is_action_just_pressed("jump")
+		var rocket = Input.is_action_just_pressed("rocket_jump")
+		var boosters = Input.is_action_pressed("boosters")
+		
+		# normal ground jump
+		if jump && on_floor:
+			velocity.y = -Globals.initial_jump_velocity
+			jump_clock = position.x
+			start_jump_clock = true
+		# wall jump
+		elif jump && on_wall && !wall_jump_on_cooldown:
+			velocity.y = -wall_jump_height
+			wall_jump_on_cooldown = true
+	#	# rocket boost
+	#	elif rocket && !rocket_jump_on_cooldown:
+	#		#velocity.y = -rocket_jump_height
+	#		rocket_jump_on_cooldown = true
+	#		rocket_timer.start()
+	#	# boosters
+	#	elif boosters && velocity.y > booster_fall_speed && !on_floor:
+	#		#velocity.y = booster_fall_speed
+	#		pass
+		
+		var gt = get_global_transform()
+		var motion = velocity * delta
+		var result = Physics2DTestMotionResult.new()
+		var collision = Physics2DServer.body_test_motion(get_rid(), gt, velocity * delta, true, 0.08, result)
+		
+		if (collision && result.get_collider().get_collision_layer() == 16): # hit wall object
+			velocity = velocity.bounce(result.get_collision_normal())
+			wall_jump_on_cooldown = false
+			gt[2] += velocity * delta
+			set_global_transform(gt)
+		elif (collision):
+			on_floor = are_feet_on_floor(result)
+			velocity = move_and_slide(velocity, Vector2(0, -1))
+		else:
+			on_floor = false
+			gt[2] += velocity * delta
+			set_global_transform(gt)
+			
+		if !on_floor:
+			handle_off_floor_callbacks()
 		
 func are_feet_on_floor(collisionResult) -> bool:
 	var bottom_left = global_position + Vector2(-Globals.player_extents.x, Globals.player_extents.y)
@@ -126,13 +131,30 @@ func _on_wall_detector_exited(body):
 func _on_rocket_cooldown_timeout():
 	rocket_jump_on_cooldown = false
 	
-func launch_when_on_floor(init_velocity):
-	launch_velocity = init_velocity
+func add_on_floor_callback(body):
+	on_floor_callback_body_queue.push_back(body)
+	
+func remove_on_floor_callback(body):
+	on_floor_callback_body_queue.erase(body)
 
-func cancel_launch():
-	launch_velocity = null
+func add_off_floor_callback(body):
+	off_floor_callback_body_queue.push_back(body)
+
+func remove_off_floor_callback(body):
+	off_floor_callback_body_queue.erase(body)
+
+func handle_on_floor_callbacks():
+	for c in on_floor_callback_body_queue:
+		c.on_floor_callback(self)
+		on_floor_callback_body_queue.pop_front()
+		
+func handle_off_floor_callbacks():
+	for c in off_floor_callback_body_queue:
+		c.off_floor_callback(self)
+		off_floor_callback_body_queue.pop_front()
 	
 func kill():
 	# this code relies on the parent node being a room node
-	var room = get_parent().reset_level()
+	var room = find_parent("Room*")
+	room.reset_level()
 	

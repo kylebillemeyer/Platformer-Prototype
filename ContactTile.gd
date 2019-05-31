@@ -7,49 +7,60 @@ var floor_body
 var disappear_timer
 var reapper_timer
 var collision_shape
-var state = 1
+
+#States:
+#	0 -> Init state, no contacts detected and disappear not yet triggered
+#	1 -> Body has entered area but not yet touched the ground
+#		-> 0 if body leaves area without contact
+#		-> 2 if body makes ground contact
+#	2 -> Body has made contact with the ground while still inside area
+#		3 -> countdown to disappear finishes
+#	3 -> Body has disappeared and reset timer begins
+#		0 -> reset to init state after reappear timer finishes
+var state = 0
+
+func get_body() -> Node:
+	return get_node("StaticBody2D")
 
 func _ready():
 	floor_body = get_node("StaticBody2D")
 	collision_shape = get_node("StaticBody2D/CollisionShape2D")
 	disappear_timer = get_node("DisappearTimer")
 	reapper_timer = get_node("ReappearTimer")
-	
-var t = 0
-func _process(delta):
-	t += delta
-	if t > 1:
-		t = 0
-		state += 1
-		state = state % 3
-		print_debug(str(state))
-		position += Vector2(1, 0)
 
 func _on_RigidBody2D_body_entered(body):
-	if body.get_name() == "Player" && body.on_floor:
+	if body.get_name() == "Player" && state == 0:
+		body.add_on_floor_callback(self)
 		state = 1
-		print_debug(str(state))
-		disappear_timer.start(seconds_to_disappear)
+
+func _on_Area2D_body_exited(body):
+	if body.get_name() == "Player" && state == 1:
+		body.remove_on_floor_callback(self)
+		state = 0
+		
+func on_floor_callback(body):
+	state = 2
+	disappear_timer.start(seconds_to_disappear)
+	update()
 
 func _on_disappear_timeout():
-	state = 2
-	print_debug(str(state))
-	#remove_child(floor_body)
+	state = 3
+	remove_child(floor_body)
 	reapper_timer.start(seconds_to_reappear)
+	update()
 
 func _on_ReappearTimer_timeout():
 	state = 0
-	print_debug(str(state))
-	#add_child(floor_body)
+	add_child(floor_body)
+	update()
 	
 func _draw():
-	draw_rect(Rect2(25, 25, state*100, state*100), Color.white, true)
-	if state < 2:
+	if state < 3:
 		var color
-		if state == 0: 
-			color = Color.aquamarine
-		else:
+		if state == 2: 
 			color = Color.darkolivegreen
+		else:
+			color = Color.aquamarine
 			
 		var extents = collision_shape.get_shape().get_extents()
 		draw_rect(Rect2(-extents, extents * 2), color, true)

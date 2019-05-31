@@ -16,12 +16,13 @@ _global_script_class_icons={
 [application]
 
 config/name="Side Scroller Shooter"
-run/main_scene="res://levels/Level 7.tscn"
+run/main_scene="res://levels/Level 8.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-Globals="*res://Globals.gd"
+Globals="*res://Globals.tscn"
+LevelManager="*res://LevelManager.tscn"
 
 [input]
 

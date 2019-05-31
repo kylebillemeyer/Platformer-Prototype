@@ -23,4 +23,3 @@ collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Area2D"]
 shape = SubResource( 2 )
-

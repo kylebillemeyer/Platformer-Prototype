@@ -7,13 +7,13 @@
 [ext_resource path="res://Wall.tscn" type="PackedScene" id=5]
 
 [node name="Level 2" type="Node2D"]
+editor/display_folded = true
 __meta__ = {
 "_edit_vertical_guides_": [ 0.0, 3850.0 ]
 }
 
 [node name="Room" parent="." instance=ExtResource( 1 )]
 width = 3850
-default_spawn = "Door 1"
 
 [node name="Door 1" parent="Room" instance=ExtResource( 2 )]
 position = Vector2( 150, -50 )
@@ -39,8 +39,8 @@ unit_width = 4
 unit_height = 0
 
 [node name="Spikes4" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 2900, 50 )
-unit_width = 8
+position = Vector2( 2875, 50 )
+unit_width = 7
 unit_height = 0
 
 [node name="StaticFloor" parent="Room" instance=ExtResource( 4 )]
@@ -60,8 +60,8 @@ position = Vector2( 2325, 25 )
 scale = Vector2( 15, 1 )
 
 [node name="StaticFloor6" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 3475, 25 )
-scale = Vector2( 15, 1 )
+position = Vector2( 3450, 25 )
+scale = Vector2( 16, 1 )
 
 [node name="StaticFloor3" parent="Room" instance=ExtResource( 4 )]
 position = Vector2( 1700, 25 )
@@ -74,7 +74,6 @@ scale = Vector2( 1, 20 )
 [node name="Wall2" parent="Room" instance=ExtResource( 5 )]
 position = Vector2( 3875, -500 )
 scale = Vector2( 1, 20 )
-
 [connection signal="body_entered" from="Room/Spikes/Spike" to="Room/Spikes/Spike" method="_on_Spike_body_entered"]
 [connection signal="body_entered" from="Room/Spikes/Spike2" to="Room/Spikes/Spike2" method="_on_Spike_body_entered"]
 [connection signal="body_entered" from="Room/Spikes/Spike3" to="Room/Spikes/Spike3" method="_on_Spike_body_entered"]

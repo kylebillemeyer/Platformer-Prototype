@@ -9,6 +9,7 @@ var collision_margin = 10
 var height = 5
 var area
 var collisionShape
+var launch_guard_enabled
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,11 +26,16 @@ func _draw():
 	draw_rect(Rect2(area.get_position() - extents, extents * 2), Color.red, true)
 
 func _on_Area2D_body_entered(body):
-	if body.get_name() == "Player":
-		# Adding the half the player height so the jump height is 
-		# calculated from the players feet
-		var launch_speed = sqrt(2 * (launch_height + Globals.player_extents.y) * Globals.gravity)
-		body.launch_when_on_floor(Vector2(0, -launch_speed))
+	if body.get_name() == "Player" && !launch_guard_enabled:
+		launch_guard_enabled = true
+		body.add_on_floor_callback(self)
 		
 func _on_Area2D_body_exited(body):
-	body.cancel_launch()
+	launch_guard_enabled = false
+	body.remove_on_floor_callback(self)
+		
+func on_floor_callback(body):
+	# Adding the half the player height so the jump height is 
+	# calculated from the players feet
+	var launch_speed = sqrt(2 * (launch_height + Globals.player_extents.y) * Globals.gravity)
+	body.velocity = Vector2(0, -launch_speed)

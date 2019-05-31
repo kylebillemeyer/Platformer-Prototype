@@ -11,7 +11,6 @@ __meta__ = {
 }
 
 [node name="Room" parent="." instance=ExtResource( 1 )]
-default_spawn = "Door 1"
 
 [node name="Door 1" parent="Room" instance=ExtResource( 2 )]
 position = Vector2( 150, -50 )

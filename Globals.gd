@@ -1,5 +1,8 @@
 extends Node
 
+# In order to make level transitions a bit cleaner, this guard prevents the player 
+# from moving for X seconds after the level begins processing.
+var process_guard = .25 
 
 var jump_height = 300
 var jump_width = 300

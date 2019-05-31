@@ -37,11 +37,13 @@ zoom = Vector2( 1.5, 1.5 )
 limit_left = -100
 limit_right = 1600
 drag_margin_h_enabled = false
-drag_margin_v_enabled = false
+drag_margin_left = 0.4
+drag_margin_top = 0.4
+drag_margin_right = 0.4
+drag_margin_bottom = 0.4
 editor_draw_limits = true
 editor_draw_drag_margin = true
 script = ExtResource( 3 )
-
 [connection signal="body_entered" from="Left Wall Detector" to="." method="_on_wall_detector_entered"]
 [connection signal="body_exited" from="Left Wall Detector" to="." method="_on_wall_detector_exited"]
 [connection signal="body_entered" from="Right Wall Detector2" to="." method="_on_wall_detector_entered"]

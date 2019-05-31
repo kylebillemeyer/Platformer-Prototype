@@ -29,7 +29,7 @@ one_shot = true
 
 [node name="ReappearTimer" type="Timer" parent="."]
 one_shot = true
-
 [connection signal="body_entered" from="Area2D" to="." method="_on_RigidBody2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="timeout" from="DisappearTimer" to="." method="_on_disappear_timeout"]
 [connection signal="timeout" from="ReappearTimer" to="." method="_on_ReappearTimer_timeout"]

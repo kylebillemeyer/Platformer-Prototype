@@ -14,7 +14,6 @@ __meta__ = {
 
 [node name="Room" parent="." instance=ExtResource( 1 )]
 width = 9600
-default_spawn = "Door 3"
 
 [node name="Door 1" parent="Room" instance=ExtResource( 2 )]
 position = Vector2( 150, -50 )
@@ -80,7 +79,6 @@ unit_height = 0
 position = Vector2( 2425, 50 )
 unit_width = 5
 unit_height = 0
-
 [connection signal="body_entered" from="Room/Spikes/Spike" to="Room/Spikes/Spike" method="_on_Spike_body_entered"]
 [connection signal="body_entered" from="Room/Spikes/Spike2" to="Room/Spikes/Spike2" method="_on_Spike_body_entered"]
 [connection signal="body_entered" from="Room/Spikes/Spike3" to="Room/Spikes/Spike3" method="_on_Spike_body_entered"]

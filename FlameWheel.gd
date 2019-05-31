@@ -29,8 +29,9 @@ func _ready():
 			col.set_shape(shape)
 			area.add_child(col)
 			area.set_name("Flame " + str(i))
-			area.set_collision_layer_bit(262144, true)
-			area.set_collision_mask_bit(1, true)
+			area.set_collision_layer_bit(0, false)
+			area.set_collision_layer_bit(19, true)
+			area.set_collision_mask_bit(0, true)
 			area.connect("body_entered", self, "_on_flame_entered")
 			
 			area.position = offset_normal * (width_per_unit + spacing) * i
