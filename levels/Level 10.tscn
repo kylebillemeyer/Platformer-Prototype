@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://levels/StaticTileset.tres" type="TileSet" id=1]
+[ext_resource path="res://Room.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Door.tscn" type="PackedScene" id=3]
+
+[sub_resource type="TileSet" id=6]
+
+[node name="Level 10" type="Node2D"]
+
+[node name="StaticTileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+collision_layer = 4
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( -786432, 2, 0, -786408, 2, 0, -720896, 2, 0, -720872, 2, 0, -655360, 2, 0, -655336, 2, 0, -589824, 2, 0, -589800, 2, 0, -524288, 2, 0, -524264, 2, 0, -458752, 2, 0, -458728, 2, 0, -393216, 2, 0, -393192, 2, 0, -327680, 2, 0, -327656, 2, 0, -262144, 2, 0, -262120, 2, 0, -196608, 2, 0, -196584, 2, 0, -131072, 2, 0, -131048, 2, 0, -65536, 2, 0, -65535, 5, 0, -65534, 5, 0, -65533, 5, 0, -65532, 5, 0, -65531, 5, 0, -65530, 5, 0, -65529, 5, 0, -65528, 5, 0, -65527, 5, 0, -65526, 5, 0, -65525, 5, 0, -65524, 5, 0, -65523, 5, 0, -65522, 5, 0, -65521, 5, 0, -65520, 5, 0, -65519, 5, 0, -65518, 5, 0, -65517, 5, 0, -65516, 5, 0, -65515, 5, 0, -65514, 5, 0, -65513, 5, 0, -65512, 2, 0 )
+
+[node name="DynamicTileMap" type="TileMap" parent="."]
+tile_set = SubResource( 6 )
+format = 1
+
+[node name="Room" parent="." instance=ExtResource( 2 )]
+
+[node name="Entrance" parent="Room" instance=ExtResource( 3 )]
+position = Vector2( 160, -96 )
+
+[node name="Exit" parent="Room" instance=ExtResource( 3 )]
+position = Vector2( 1440, -96 )
+next_level_path = "Level 2/Entrance"

@@ -4,11 +4,14 @@ extends Node
 # from moving for X seconds after the level begins processing.
 var process_guard = .25 
 
-var jump_height = 300
-var jump_width = 300
-var jump_and_return_time = .75
+var grid_size = 64
+var half_grid_size = grid_size / 2.0
 
-var player_extents = Vector2(25, 25)
+var jump_height = grid_size * 4
+var jump_width = grid_size * 6
+var jump_and_return_time = .9
+
+var player_extents = Vector2(half_grid_size, half_grid_size)
 var initial_jump_velocity
 var gravity
 

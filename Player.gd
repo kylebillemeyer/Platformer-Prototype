@@ -24,6 +24,7 @@ func _ready():
 	velocity = Vector2()
 	rocket_timer = get_node("Rocket Cooldown Timer")
 	collisionShape = get_node("CollisionShape2D")
+	collisionShape.get_shape().set_extents(Globals.player_extents)
 	
 	# Adding the player width to account for the fact that
 	# we want to make jump width from players right edge upon

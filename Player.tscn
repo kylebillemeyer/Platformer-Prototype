@@ -5,7 +5,7 @@
 [ext_resource path="res://Camera2D2.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 25, 25 )
+extents = Vector2( 1, 1 )
 
 [sub_resource type="GDScript" id=2]
 
@@ -36,7 +36,6 @@ current = true
 zoom = Vector2( 1.5, 1.5 )
 limit_left = -100
 limit_right = 1600
-drag_margin_h_enabled = false
 drag_margin_left = 0.4
 drag_margin_top = 0.4
 drag_margin_right = 0.4

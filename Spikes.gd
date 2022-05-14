@@ -23,8 +23,8 @@ func _ready():
 	
 	var spike_inst = spike_scene.instance()
 	var collision_outline = spike_inst.get_node("CollisionShape2D").get_shape().get_points()
-	var min_x = 3.402823e+38
-	var max_x = -2.802597e-45
+	var min_x = INF
+	var max_x = -INF
 	for pt in collision_outline:
 		if (pt.x > max_x):
 			max_x = pt.x
