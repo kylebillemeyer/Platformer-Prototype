@@ -18,7 +18,8 @@ func init():
 	collisionShape.get_shape().set_extents(extents)
 
 func _process(delta):
-	update()
+	if Engine.editor_hint:
+		update()
 	
 func _draw():
 	for x in range(qunits_x):
