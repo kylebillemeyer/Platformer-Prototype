@@ -1,3 +1,4 @@
+tool
 extends Node
 
 # In order to make level transitions a bit cleaner, this guard prevents the player 
@@ -6,6 +7,7 @@ var process_guard = .25
 
 var grid_size = 64
 var half_grid_size = grid_size / 2.0
+var quarter_grid_size = grid_size / 4.0
 
 var jump_height = grid_size * 4
 var jump_width = grid_size * 6

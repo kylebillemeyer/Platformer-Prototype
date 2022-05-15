@@ -1,11 +1,11 @@
 extends Node2D
 
-var go_to_next_level
-var go_to_reset_level
-var next_level_path
+export(String) var next_level_path
 
-var levels = {}
-
+var should_load_next_level = false
+var should_reset_level = false
+var entrance
+var exit
 var dimensions
 
 var player_scene = preload("res://Player.tscn")
@@ -13,70 +13,64 @@ var spike_scene = preload("res://obstacles/Spike.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var dynamicMap = get_node("../DynamicTileMap")
+	if (!next_level_path):
+		print("No level path assigned to door. Cannot exit level.")
+	
+	entrance = get_node("Entrance")
+	assert(entrance, "Level must have the path /Room/Entrance")
+	
+	exit = get_node("Exit")
+	assert("Level must have the path /Room/Exit")
+	exit.connect("door_triggered", self, "load_next_level")
+	
+	dimensions = calculate_dimensions()
+	
+	generate_obstacles_from_tiles()
+	spawn_player()
+
+func _process(delta):
+	var tree = get_tree()
+	
+	if should_load_next_level:
+		var level_path = "res://levels/" + next_level_path + ".tscn"
+		tree.change_scene(level_path)
+	elif should_reset_level:
+		tree.reload_current_scene()
+
+func load_next_level():
+	should_load_next_level = true
+		
+func reset_level():
+	should_reset_level = true
+	
+func calculate_dimensions():
+	var staticMap = get_node("../StaticTileMap")
 	
 	var min_pos = Vector2.INF
 	var max_pos = -Vector2.INF
+	for pos in staticMap.get_used_cells():
+		min_pos = Vector2(min(min_pos.x, pos.x), min(min_pos.y, pos.y))
+		max_pos = Vector2(max(max_pos.x, pos.x), max(max_pos.y, pos.y))
+		
+	return (max_pos - min_pos) * Globals.grid_size
+	
+func generate_obstacles_from_tiles():
+	var dynamicMap = get_node("../DynamicTileMap")
+	
 	for pos in dynamicMap.get_used_cells():
 		var tile = dynamicMap.get_cell(pos.x, pos.y)
-		
-		# insert auto gen stuff here
 		match tile:
 			2:
 				create_default(pos, spike_scene)
 			_:
-				print("Could not create dynamic tile #" + str(tile))
-		
-		min_pos = Vector2(min(min_pos.x, pos.x), min(min_pos.y, pos.y))
-		max_pos = Vector2(max(max_pos.x, pos.x), max(max_pos.y, pos.y))
-		
-	dimensions = (max_pos - min_pos) * Globals.grid_size
-	
-	var player = player_scene.instance()
-	
-	var entrance = get_node("Entrance")
-	assert(entrance, "Level must have the path /Room/Entrance")
-
-	player.set_position(entrance.get_position())
-	add_child(player)
-	
-	for c in get_children():
-		if c.get_class() == "Door" && c.next_level_path:
-			#var path_parts = c.next_level_path.rsplit("/")
-			#var level_path = "res://levels/" + path_parts[0] + ".tscn"
-			#var level = load(level_path)
-			#levels[c.next_level_path] = level
-			continue
-
-func _process(delta):
-	if next_level_path:
-		var tree = get_tree()
-		
-		var path_parts = next_level_path.rsplit("/")
-		
-		var level_path = "res://levels/" + path_parts[0] + ".tscn"
-		tree.change_scene(level_path)
-		
-		var door_name = path_parts[1]
-		var room = tree.get_root().find_node("Room*", true, false)
-		LevelManager.spawn_door = door_name
-		
-	if go_to_reset_level:
-		var tree = get_tree()
-		tree.reload_current_scene()
-
-func change_level(level_path):
-	if (!level_path):
-		print("No level path assigned to door. Cannot change levels.")
-	elif !("/" in level_path):
-		print("Level path must be of form 'Level [x]/Door [y]'. Cannot change levels.")
-	else:
-		next_level_path = level_path
-		
-func reset_level():
-	go_to_reset_level = true
+				assert(false, "Could not create dynamic tile #" + str(tile))
 	
 func create_default(pos, scene):
 	var obstacle = scene.instance()
 	obstacle.set_position(pos * Globals.grid_size + (Vector2.ONE * Globals.half_grid_size))
 	add_child(obstacle)
+
+func spawn_player():
+	var player = player_scene.instance()
+	player.set_position(entrance.get_position())
+	add_child(player)

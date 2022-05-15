@@ -2,145 +2,108 @@
 
 [ext_resource path="res://Room.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Door.tscn" type="PackedScene" id=2]
-[ext_resource path="res://StaticFloor.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Spikes.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Wall.tscn" type="PackedScene" id=5]
+[ext_resource path="res://obstacles/SpikedBlock.tscn" type="PackedScene" id=4]
+[ext_resource path="res://obstacles/dynamic_tiles.tres" type="TileSet" id=5]
+[ext_resource path="res://levels/StaticTileset.tres" type="TileSet" id=6]
 
 [node name="Level 3" type="Node2D"]
 
+[node name="StaticTileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 6 )
+collision_layer = 4
+collision_mask = 2147483648
+format = 1
+tile_data = PoolIntArray( -1179649, 3, 0, -1245103, 3, 0, -1114113, 3, 0, -1179567, 3, 0, -1048577, 3, 0, -1114031, 3, 0, -983041, 3, 0, -1048495, 3, 0, -1048494, 2, 0, -917505, 3, 0, -982959, 3, 0, -982958, 2, 0, -851969, 3, 0, -917423, 3, 0, -917422, 2, 0, -786433, 3, 0, -851887, 3, 0, -720897, 3, 0, -786351, 3, 0, -655361, 3, 0, -720815, 3, 0, -589825, 3, 0, -655279, 3, 0, -655278, 2, 0, -524289, 3, 0, -589743, 3, 0, -589742, 2, 0, -458753, 3, 0, -524207, 3, 0, -524206, 2, 0, -393217, 3, 0, -458671, 3, 0, -458670, 2, 0, -327681, 3, 0, -393135, 3, 0, -393134, 2, 0, -262145, 3, 0, -327599, 3, 0, -327598, 2, 0, -196609, 3, 0, -262063, 3, 0, -262062, 2, 0, -131073, 3, 0, -196527, 3, 0, -196526, 2, 0, -65537, 3, 0, -130991, 3, 0, -130990, 2, 0, -1, 3, 0, -65455, 3, 0, -65454, 2, 0, 65535, 3, 0, 0, 5, 0, 1, 5, 0, 2, 5, 0, 3, 5, 0, 4, 5, 0, 5, 5, 0, 6, 5, 0, 7, 5, 0, 8, 5, 0, 9, 5, 0, 10, 5, 0, 11, 5, 0, 12, 5, 0, 13, 5, 0, 14, 5, 0, 15, 5, 0, 16, 5, 0, 17, 5, 0, 18, 5, 0, 19, 5, 0, 20, 5, 0, 21, 5, 0, 22, 5, 0, 23, 5, 0, 24, 5, 0, 25, 5, 0, 26, 5, 0, 27, 5, 0, 28, 5, 0, 29, 5, 0, 30, 5, 0, 31, 5, 0, 32, 5, 0, 33, 5, 0, 34, 5, 0, 35, 5, 0, 36, 5, 0, 37, 5, 0, 38, 5, 0, 39, 5, 0, 40, 5, 0, 41, 5, 0, 42, 5, 0, 43, 5, 0, 44, 5, 0, 45, 5, 0, 46, 5, 0, 47, 5, 0, 48, 5, 0, 49, 5, 0, 50, 5, 0, 51, 5, 0, 52, 5, 0, 53, 5, 0, 54, 5, 0, 55, 5, 0, 56, 5, 0, 57, 5, 0, 58, 5, 0, 59, 5, 0, 60, 5, 0, 61, 5, 0, 62, 5, 0, 63, 5, 0, 64, 5, 0, 65, 5, 0, 66, 5, 0, 67, 5, 0, 68, 5, 0, 69, 5, 0, 70, 5, 0, 71, 5, 0, 72, 5, 0, 73, 5, 0, 74, 5, 0, 75, 5, 0, 76, 5, 0, 77, 5, 0, 78, 5, 0, 79, 5, 0, 80, 5, 0, 81, 3, 0 )
+
+[node name="DynamicTileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 5 )
+format = 1
+
 [node name="Room" parent="." instance=ExtResource( 1 )]
-width = 7050
-default_spawn = "Door 1"
+next_level_path = "Level 4"
 
-[node name="Door 1" parent="Room" instance=ExtResource( 2 )]
-position = Vector2( 150, -50 )
-next_level_path = "Level 2/Door 2"
+[node name="Entrance" parent="Room" instance=ExtResource( 2 )]
+position = Vector2( 96, -32 )
 
-[node name="Door 2" parent="Room" instance=ExtResource( 2 )]
-position = Vector2( 5100, -50 )
-next_level_path = "Level 4/Door 1"
-
-[node name="StaticFloor" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 2625, 25 )
-scale = Vector2( 105, 1 )
+[node name="Exit" parent="Room" instance=ExtResource( 2 )]
+position = Vector2( 5088, -32 )
 
 [node name="Spikes" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 625, -25 )
-unit_height = 2
+position = Vector2( 448, -64 )
+qunits_x = 4
+qunits_y = 4
+spikes_on_top = true
+spikes_on_right = true
+spikes_on_left = true
 
 [node name="Spikes2" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 1050, -25 )
-unit_width = 1
+position = Vector2( 1024, -64 )
+qunits_x = 4
+qunits_y = 4
+spikes_on_top = true
 spikes_on_right = true
 spikes_on_left = true
 
 [node name="Spikes3" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 1325, -25 )
-unit_width = 1
+position = Vector2( 1344, -64 )
+qunits_x = 4
+qunits_y = 4
+spikes_on_top = true
 spikes_on_right = true
 spikes_on_left = true
 
 [node name="Spikes4" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 1550, -25 )
-unit_width = 1
-spikes_on_right = true
-spikes_on_left = true
-
-[node name="Spikes7" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 2425, -50 )
-unit_width = 1
-unit_height = 2
+position = Vector2( 1536, -64 )
+qunits_x = 4
+qunits_y = 4
+spikes_on_top = true
 spikes_on_right = true
 spikes_on_left = true
 
 [node name="Spikes5" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 2925, -50 )
-unit_width = 1
-unit_height = 2
+position = Vector2( 2912, -128 )
+qunits_x = 4
+qunits_y = 8
+spikes_on_top = true
 spikes_on_right = true
 spikes_on_left = true
 
 [node name="Spikes6" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 2700, -50 )
-unit_width = 1
-unit_height = 2
-spikes_on_right = true
-spikes_on_left = true
-
-[node name="Spikes9" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 3825, -75 )
-unit_width = 1
-unit_height = 3
+position = Vector2( 2688, -128 )
+qunits_x = 4
+qunits_y = 8
+spikes_on_top = true
 spikes_on_right = true
 spikes_on_left = true
 
 [node name="Spikes10" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 4100, -75 )
-unit_width = 1
-unit_height = 3
+position = Vector2( 4128, -192 )
+qunits_x = 4
+qunits_y = 12
+spikes_on_top = true
 spikes_on_right = true
 spikes_on_left = true
 
 [node name="Spikes8" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 4325, -75 )
-unit_width = 1
-unit_height = 3
+position = Vector2( 4352, -192 )
+qunits_x = 4
+qunits_y = 12
+spikes_on_top = true
 spikes_on_right = true
 spikes_on_left = true
 
-[node name="Wall" parent="Room" instance=ExtResource( 5 )]
-position = Vector2( -25, -500 )
-scale = Vector2( 1, 20 )
+[node name="Spikes7" parent="Room" instance=ExtResource( 4 )]
+position = Vector2( 2432, -128 )
+qunits_x = 4
+qunits_y = 8
+spikes_on_top = true
+spikes_on_right = true
+spikes_on_left = true
 
-[node name="Wall2" parent="Room" instance=ExtResource( 5 )]
-position = Vector2( 5275, -500 )
-scale = Vector2( 1, 20 )
-
-[connection signal="body_entered" from="Room/Spikes/Spike" to="Room/Spikes/Spike" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes/Spike2" to="Room/Spikes/Spike2" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes/Spike3" to="Room/Spikes/Spike3" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes2/Spike" to="Room/Spikes2/Spike" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes2/Spike2" to="Room/Spikes2/Spike2" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes2/Spike3" to="Room/Spikes2/Spike3" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes3/Spike" to="Room/Spikes3/Spike" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes3/Spike2" to="Room/Spikes3/Spike2" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes3/Spike3" to="Room/Spikes3/Spike3" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes4/Spike" to="Room/Spikes4/Spike" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes4/Spike2" to="Room/Spikes4/Spike2" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes4/Spike3" to="Room/Spikes4/Spike3" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes7/Spike" to="Room/Spikes7/Spike" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes7/Spike2" to="Room/Spikes7/Spike2" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes7/Spike3" to="Room/Spikes7/Spike3" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes7/Spike4" to="Room/Spikes7/Spike4" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes7/Spike5" to="Room/Spikes7/Spike5" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes5/Spike" to="Room/Spikes5/Spike" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes5/Spike2" to="Room/Spikes5/Spike2" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes5/Spike3" to="Room/Spikes5/Spike3" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes5/Spike4" to="Room/Spikes5/Spike4" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes5/Spike5" to="Room/Spikes5/Spike5" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes6/Spike" to="Room/Spikes6/Spike" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes6/Spike2" to="Room/Spikes6/Spike2" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes6/Spike3" to="Room/Spikes6/Spike3" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes6/Spike4" to="Room/Spikes6/Spike4" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes6/Spike5" to="Room/Spikes6/Spike5" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes9/Spike" to="Room/Spikes9/Spike" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes9/Spike2" to="Room/Spikes9/Spike2" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes9/Spike3" to="Room/Spikes9/Spike3" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes9/Spike4" to="Room/Spikes9/Spike4" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes9/Spike5" to="Room/Spikes9/Spike5" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes9/Spike6" to="Room/Spikes9/Spike6" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes9/Spike7" to="Room/Spikes9/Spike7" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes10/Spike" to="Room/Spikes10/Spike" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes10/Spike2" to="Room/Spikes10/Spike2" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes10/Spike3" to="Room/Spikes10/Spike3" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes10/Spike4" to="Room/Spikes10/Spike4" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes10/Spike5" to="Room/Spikes10/Spike5" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes10/Spike6" to="Room/Spikes10/Spike6" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes10/Spike7" to="Room/Spikes10/Spike7" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes8/Spike" to="Room/Spikes8/Spike" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes8/Spike2" to="Room/Spikes8/Spike2" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes8/Spike3" to="Room/Spikes8/Spike3" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes8/Spike4" to="Room/Spikes8/Spike4" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes8/Spike5" to="Room/Spikes8/Spike5" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes8/Spike6" to="Room/Spikes8/Spike6" method="_on_Spike_body_entered"]
-[connection signal="body_entered" from="Room/Spikes8/Spike7" to="Room/Spikes8/Spike7" method="_on_Spike_body_entered"]
+[node name="Spikes9" parent="Room" instance=ExtResource( 4 )]
+position = Vector2( 3840, -192 )
+qunits_x = 4
+qunits_y = 12
+spikes_on_top = true
+spikes_on_right = true
+spikes_on_left = true

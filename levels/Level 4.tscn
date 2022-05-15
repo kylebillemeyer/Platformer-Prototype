@@ -4,7 +4,9 @@
 [ext_resource path="res://Door.tscn" type="PackedScene" id=2]
 [ext_resource path="res://StaticFloor.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Cannon.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Wall.tscn" type="PackedScene" id=5]
+[ext_resource path="res://obstacles/Block.tscn" type="PackedScene" id=5]
+
+
 
 [node name="Level 4" type="Node2D"]
 __meta__ = {
