@@ -1,0 +1,73 @@
+jumping
+cartwheel/spin
+picking shit up and throwing it
+invuln
+
+bananas -> 1up
+1up / 3ups
+DK coin - 1 per level, collector
+Kremling coins - 1 per bonus room, used to access secret world level's
+barrel bonuses - find hidden barrels to access bonus (exploration based)
+cannonball bonuses - have to carry the cannonball to the cannon to access bonus (skill based)
+
+
+World 1
+  Mechanics
+    "spikes" - falling to the bottom of the level is death
+    one way platforms
+    hooks
+    barrels
+      static, manaully tiggered
+      static, immediate trigger (with arrow showing direction)
+      moving, manually triggered
+      moving, immediate trigger
+    bounce pads - jumping on objects (enemies, barrels, etc) grants extra "jump"
+    rope climbing - easy vertical movement, slow/chunky side to side
+    swimming
+    rhino
+    swordfish
+    snake
+    bees
+  
+  Enemies
+    rats - filler, introduce jumping and cartwheels with minimal failure rate
+    basic kremling - larger hitbox requires players to land on platforms with more precision than rats, but otherwise filler
+    barrel kremling - runs fast back and forth on a platform, can't be cartwheeled and being hit will push player back (and sometimes off the edge)
+    Kaboing v1 - they leap forward in short, predictable hops
+    rope sliders - slowly climb up rope and slide down quickly, used to test timing
+    basic swimming enemies - just move in simples left/right pattern, teach player underwater precision manuevering
+    snappers - more challenging movement patterns than basic swimmers. they are bursty, so if the player gets too close, its really difficult to dodge with the limited manueverability in the water
+    starfish - faster, diagonal patters, require player to think farther into the future about where they will need to swim to
+
+World 2
+  Mechanics
+    lava - basically, "spikes"
+    spider
+    parrot
+    gator heads - basically a bounce pad with a slight, but noticeable delay
+    boiling water + seals - a water level with periodic death countdown timer
+
+  Enemies
+    barrel dudes - shoot a barrel at the player, that hurts if hit but provides a moving bounce pad
+    vultures (swoop in)
+    Kaboing v2 - high vertical jump on narrow platform
+    boomerang dudes - guy throws an object that comes back to him
+    pufferfish
+
+World 3
+
+  Mechanics
+    timer barrels - player controls the barrel but has limited time to aim
+
+  Enemies
+    phatom guys that throw shit 
+
+
+
+
+
+
+
+
+
+

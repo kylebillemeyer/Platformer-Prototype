@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://FlameWheel.gd" type="Script" id=1]
-
-[node name="FlameWheel" type="Node2D"]
-rotation = 755.814
-script = ExtResource( 1 )

@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://levels/StaticTileset.tres" type="TileSet" id=1]
+[ext_resource path="res://dynamic/dynamic_tiles.tres" type="TileSet" id=2]
+[ext_resource path="res://dynamic/platforms/Hook.tscn" type="PackedScene" id=3]
+[ext_resource path="res://room/Room.tscn" type="PackedScene" id=4]
+[ext_resource path="res://room/Door.tscn" type="PackedScene" id=5]
+
+[node name="Hooks" type="Node2D"]
+
+[node name="StaticTileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+collision_layer = 4
+collision_mask = 2147483649
+format = 1
+tile_data = PoolIntArray( -1179648, 3, 0, -1179616, 3, 0, -1114112, 3, 0, -1114080, 3, 0, -1048576, 3, 0, -1048544, 3, 0, -983040, 3, 0, -983008, 3, 0, -917504, 3, 0, -917472, 3, 0, -851968, 3, 0, -851936, 3, 0, -786432, 3, 0, -786400, 3, 0, -720896, 3, 0, -720864, 3, 0, -655360, 3, 0, -655328, 3, 0, -589824, 3, 0, -589792, 3, 0, -524288, 3, 0, -524256, 3, 0, -458752, 3, 0, -458720, 3, 0, -393216, 3, 0, -393184, 3, 0, -327680, 3, 0, -327648, 3, 0, -262144, 3, 0, -262112, 3, 0, -196608, 3, 0, -196576, 3, 0, -131072, 3, 0, -131040, 3, 0, -65536, 3, 0, -65535, 5, 0, -65534, 5, 0, -65533, 5, 0, -65532, 5, 0, -65531, 5, 0, -65530, 5, 0, -65529, 5, 0, -65528, 6, 0, -65512, 4, 0, -65511, 5, 0, -65510, 5, 0, -65509, 5, 0, -65508, 5, 0, -65507, 5, 0, -65506, 5, 0, -65505, 5, 0, -65504, 3, 0 )
+
+[node name="DynamicTileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 2 )
+format = 1
+tile_data = PoolIntArray( -65527, 2, 0, -65526, 2, 0, -65525, 2, 0, -65524, 2, 0, -65523, 2, 0, -65522, 2, 0, -65521, 2, 0, -65520, 2, 0, -65519, 2, 0, -65518, 2, 0, -65517, 2, 0, -65516, 2, 0, -65515, 2, 0, -65514, 2, 0, -65513, 2, 0 )
+
+[node name="Room" parent="." instance=ExtResource( 4 )]
+next_level_path = "prototypes/Whirlies"
+
+[node name="Entrance" parent="Room" instance=ExtResource( 5 )]
+position = Vector2( 160, -96 )
+
+[node name="Exit" parent="Room" instance=ExtResource( 5 )]
+position = Vector2( 1952, -96 )
+
+[node name="Hook" parent="Room" instance=ExtResource( 3 )]
+position = Vector2( 896, -256 )
+
+[node name="Hook 2" parent="Room" instance=ExtResource( 3 )]
+position = Vector2( 1280, -256 )

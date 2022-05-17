@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Side Scroller Shooter"
-run/main_scene="res://levels/Level 9.tscn"
+run/main_scene="res://levels/prototypes/OneWayPlatforms.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -106,6 +106,7 @@ aim_left={
 2d_physics/layer_1="Player"
 2d_physics/layer_3="Static Floor"
 2d_physics/layer_4="Static Wall"
+2d_physics/layer_5="Dynamic Floor"
 2d_physics/layer_19="Dynamic Areas"
 2d_physics/layer_20="Static Areas"
 

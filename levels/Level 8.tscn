@@ -1,11 +1,14 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://Room.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Door.tscn" type="PackedScene" id=2]
-[ext_resource path="res://StaticFloor.tscn" type="PackedScene" id=3]
-[ext_resource path="res://obstacles/Block.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Spikes2.tscn" type="PackedScene" id=5]
-[ext_resource path="res://MovingPlatform.tscn" type="PackedScene" id=6]
+[ext_resource path="res://room/Room.tscn" type="PackedScene" id=1]
+[ext_resource path="res://room/Door.tscn" type="PackedScene" id=2]
+[ext_resource path="res://dynamic/platforms/Block.tscn" type="PackedScene" id=4]
+[ext_resource path="res://dynamic/platforms/MovingPlatform.tscn" type="PackedScene" id=6]
+
+
+
+
+
 
 
 
@@ -35,34 +38,6 @@ position = Vector2( 150, -325 )
 
 [node name="Door 2" parent="Room" instance=ExtResource( 2 )]
 position = Vector2( 5000, -350 )
-
-[node name="StaticFloor" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 400, -150 )
-scale = Vector2( 16, 6 )
-
-[node name="StaticFloor2" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 2200, -150 )
-scale = Vector2( 16, 6 )
-
-[node name="StaticFloor3" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 5000, -150 )
-scale = Vector2( 16, 6 )
-
-[node name="Wall" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 25, -800 )
-scale = Vector2( 1, 20 )
-
-[node name="Spikes" parent="Room" instance=ExtResource( 5 )]
-position = Vector2( 825, -25 )
-unit_width = 20
-
-[node name="Spikes2" parent="Room" instance=ExtResource( 5 )]
-position = Vector2( 2625, -25 )
-unit_width = 40
-
-[node name="Spikes3" parent="Room" instance=ExtResource( 5 )]
-position = Vector2( 5425, -25 )
-unit_width = 40
 
 [node name="Path2D" type="Path2D" parent="Room"]
 curve = SubResource( 1 )

@@ -1,10 +1,15 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Room.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Door.tscn" type="PackedScene" id=2]
-[ext_resource path="res://StaticFloor.tscn" type="PackedScene" id=3]
-[ext_resource path="res://FlameWheel.tscn" type="PackedScene" id=4]
-[ext_resource path="res://obstacles/SpikedBlock.tscn" type="PackedScene" id=5]
+[ext_resource path="res://room/Room.tscn" type="PackedScene" id=1]
+[ext_resource path="res://room/Door.tscn" type="PackedScene" id=2]
+[ext_resource path="res://dynamic/obstacles/FlameWheel.tscn" type="PackedScene" id=4]
+[ext_resource path="res://dynamic/platforms/SpikedBlock.tscn" type="PackedScene" id=5]
+
+
+
+
+
+
 
 
 
@@ -29,14 +34,6 @@ next_level_path = "Level 7/Door 1"
 position = Vector2( 1450, -250 )
 next_level_path = "Level 7/Door 1"
 
-[node name="StaticFloor" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 850, 25 )
-scale = Vector2( 34, 1 )
-
-[node name="StaticFloor4" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 2800, 25 )
-scale = Vector2( 10, 1 )
-
 [node name="FlameWheel" parent="Room" instance=ExtResource( 4 )]
 position = Vector2( 900, 25 )
 rotation = 0.0
@@ -45,9 +42,6 @@ spacing = 25.0
 rotations_per_second = 0.75
 flame_radius = 12.5
 
-[node name="StaticFloor2" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 1975, 25 )
-
 [node name="FlameWheel2" parent="Room" instance=ExtResource( 4 )]
 position = Vector2( 1975, 25 )
 rotation = 0.0
@@ -55,9 +49,6 @@ unit_radius = 6
 spacing = 25.0
 rotations_per_second = 0.5
 flame_radius = 12.5
-
-[node name="StaticFloor3" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 2275, 25 )
 
 [node name="FlameWheel3" parent="Room" instance=ExtResource( 4 )]
 position = Vector2( 2275, 25 )

@@ -12,6 +12,9 @@ var quarter_grid_size = grid_size / 4.0
 var jump_height = grid_size * 4
 var jump_width = grid_size * 6
 var jump_and_return_time = .75
+var hook_jump_factor = .85
+var whirling_fall_factor = .3
+var whirling_lateral_move_factor = .5
 
 var player_extents = Vector2(half_grid_size, half_grid_size)
 var initial_jump_velocity

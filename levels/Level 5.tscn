@@ -1,10 +1,15 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Room.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Door.tscn" type="PackedScene" id=2]
-[ext_resource path="res://StaticFloor.tscn" type="PackedScene" id=3]
-[ext_resource path="res://obstacles/Block.tscn" type="PackedScene" id=4]
-[ext_resource path="res://BouncePad.tscn" type="PackedScene" id=5]
+[ext_resource path="res://room/Room.tscn" type="PackedScene" id=1]
+[ext_resource path="res://room/Door.tscn" type="PackedScene" id=2]
+[ext_resource path="res://dynamic/platforms/Block.tscn" type="PackedScene" id=4]
+[ext_resource path="res://dynamic/platforms/BouncePad.tscn" type="PackedScene" id=5]
+
+
+
+
+
+
 
 
 
@@ -25,32 +30,6 @@ next_level_path = "Level 4/Door 2"
 [node name="Door 2" parent="Room" instance=ExtResource( 2 )]
 position = Vector2( 150, -800 )
 next_level_path = "Level 6/Door 1"
-
-[node name="StaticFloor" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 1200, 25 )
-scale = Vector2( 48, 1 )
-
-[node name="StaticFloor2" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 1700, -725 )
-scale = Vector2( 2, 1 )
-
-[node name="StaticFloor4" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 1275, -725 )
-
-[node name="StaticFloor5" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 850, -725 )
-
-[node name="StaticFloor3" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 2075, -350 )
-scale = Vector2( 2, 1 )
-
-[node name="Wall" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( -25, -750 )
-scale = Vector2( 1, 30 )
-
-[node name="Wall2" parent="Room" instance=ExtResource( 4 )]
-position = Vector2( 2425, -750 )
-scale = Vector2( 1, 30 )
 
 [node name="BouncePad" parent="Room" instance=ExtResource( 5 )]
 position = Vector2( 1700, 0 )
@@ -74,7 +53,3 @@ launch_height = 500.0
 position = Vector2( 2075, -375 )
 unit_width = 2
 launch_height = 500.0
-
-[node name="StaticFloor6" parent="Room" instance=ExtResource( 3 )]
-position = Vector2( 250, -725 )
-scale = Vector2( 10, 1 )
