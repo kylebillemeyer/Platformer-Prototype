@@ -6,9 +6,6 @@
 [ext_resource path="res://room/Door.tscn" type="PackedScene" id=4]
 [ext_resource path="res://dynamic/platforms/OneWayPlatform.tscn" type="PackedScene" id=5]
 
-
-
-
 [node name="OneWayPlatforms" type="Node2D"]
 
 [node name="StaticTileMap" type="TileMap" parent="."]
@@ -24,6 +21,7 @@ collision_layer = 0
 format = 1
 
 [node name="Room" parent="." instance=ExtResource( 3 )]
+next_level_path = "prototypes/BouncePads"
 
 [node name="Entrance" parent="Room" instance=ExtResource( 4 )]
 position = Vector2( 96, -96 )
