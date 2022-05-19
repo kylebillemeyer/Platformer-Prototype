@@ -1,66 +1,92 @@
+tool
+
 extends Node2D
 
 export(float) var seconds_to_disappear = 1
 export(float) var seconds_to_reappear = 3
 
-var floor_body
-var disappear_timer
-var reapper_timer
+export(int) var qunits_x = 1 setget set_qunits_x
+export(int) var qunits_y = 1 setget set_qunits_y
+
+onready var disappear_timer = $DisappearTimer
+onready var reappear_timer = $ReappearTimer
 var collision_shape
 
-#States:
-#	0 -> Init state, no contacts detected and disappear not yet triggered
-#	1 -> Body has entered area but not yet touched the ground
-#		-> 0 if body leaves area without contact
-#		-> 2 if body makes ground contact
-#	2 -> Body has made contact with the ground while still inside area
-#		3 -> countdown to disappear finishes
-#	3 -> Body has disappeared and reset timer begins
-#		0 -> reset to init state after reappear timer finishes
-var state = 0
+enum States { 
+    IDLE,  # Init state, no contacts detected and disappear not yet triggered
+    PRE_CONTACT,  # Body has entered area but not yet touched the ground
+    CONTACTED,  # Body has made contact with the ground while still inside area
+    DISSAPEARED  # Body has disappeared and reset timer begins
+}
+
+var state = States.IDLE
 
 func get_body() -> Node:
     return get_node("StaticBody2D")
 
 func _ready():
-    floor_body = get_node("StaticBody2D")
-    collision_shape = get_node("StaticBody2D/CollisionShape2D")
-    disappear_timer = get_node("DisappearTimer")
-    reapper_timer = get_node("ReappearTimer")
+    pass
+    
+func _process(delta):
+    if Engine.editor_hint:
+        update()
+    
+func _draw():
+    if state == States.DISSAPEARED:
+        return
+    
+    var color
+    if state == States.CONTACTED:
+        color = Color.darkolivegreen
+    else:
+        color = Color.aquamarine
+        
+    var extents = calc_extents()
+    draw_rect(Rect2(Vector2.ZERO, extents * 2), color, true)
 
 func _on_RigidBody2D_body_entered(body):
-    if body.get_name() == "Player" && state == 0:
+    if body.get_name() == "Player" && state == States.IDLE:
         body.add_on_floor_callback(self)
-        state = 1
+        state =  States.PRE_CONTACT
 
 func _on_Area2D_body_exited(body):
-    if body.get_name() == "Player" && state == 1:
+    if body.get_name() == "Player" && state ==  States.PRE_CONTACT:
         body.remove_on_floor_callback(self)
-        state = 0
+        state =  States.IDLE
         
 func on_floor_callback(body):
-    state = 2
+    state = States.CONTACTED
     disappear_timer.start(seconds_to_disappear)
     update()
 
 func _on_disappear_timeout():
-    state = 3
-    remove_child(floor_body)
-    reapper_timer.start(seconds_to_reappear)
+    state = States.DISSAPEARED
+    var d = $StaticBody2D/CollisionShape2D
+    d.disabled = true
+    reappear_timer.start(seconds_to_reappear)
     update()
 
 func _on_ReappearTimer_timeout():
-    state = 0
-    add_child(floor_body)
+    state = States.IDLE
+    $StaticBody2D/CollisionShape2D.disabled = false
     update()
+        
+func set_qunits_x(value: int) -> void:
+    qunits_x = value
+    init()
     
-func _draw():
-    if state < 3:
-        var color
-        if state == 2: 
-            color = Color.darkolivegreen
-        else:
-            color = Color.aquamarine
-            
-        var extents = collision_shape.get_shape().get_extents()
-        draw_rect(Rect2(-extents, extents * 2), color, true)
+func set_qunits_y(value: int) -> void:
+    qunits_y = value
+    init()
+    
+func init():
+    var extents = calc_extents()
+    
+    $Area2D.set_position(Vector2(extents.x, -8))
+    $Area2D/CollisionShape2D.get_shape().set_extents(Vector2(extents.x, 8))
+    
+    $StaticBody2D.set_position(extents)
+    $StaticBody2D/CollisionShape2D.get_shape().set_extents(extents)
+    
+func calc_extents() -> Vector2:
+    return Vector2(qunits_x, qunits_y) * (Globals.quarter_grid_size / 2)

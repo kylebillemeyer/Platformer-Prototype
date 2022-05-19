@@ -1,29 +1,29 @@
+tool
+
 extends Node2D
 
-# test
-export(int) var unit_width = 1
+export(int) var qunits_x = 1 setget set_qunits_x
+export(int) var qunits_y = 1 setget set_qunits_y
 export(float) var move_speed = 100.0
 export(bool) var show_path = false
+export(bool) var there_and_back = true
 
-var width_per_unit = 50
-var height_per_unit = 25
-var detector_height = 10
+var detector_height = 16
 var joint_radius = 7.5
 var track_line_thickness = 5
 var path
 var path_follow
-var plat_collision
 var distance
+var length
 var body_to_anchor
 
-#States:
-#	0 -> No collisions detected, no body on platform
-#	1 -> Body entered detection area but is not on the floor (static body)
-#		-> 0 if body leaves detection area while not on the floor
-#		-> 2 if body lands on the floor
-#	2 -> Body is on the floor and should be moved along with the floor
-#		-> 1 if body moves off the floor
-var state = 0
+enum States { 
+    IDLE,  # No collisions detected, no body on platform
+    PRE_CONTACT,  # Body entered detection area but is not on the floor (static body)
+    CONTACTED  # Body is on the floor and should be moved along with the floor
+}
+
+var state = States.IDLE
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -31,53 +31,29 @@ func _ready():
     path = path_follow.get_parent()
     if !("PathFollow" in path_follow.get_name()):
         print("A moving platform's parent must be named '*PathFollow*'")
-        
-    var platform = StaticBody2D.new()
-    platform.position = Vector2(0, height_per_unit / 2.0)
-    platform.set_collision_layer_bit(0, false)
-    platform.set_collision_layer_bit(2, true)
-    platform.set_collision_mask_bit(0, true)
-    plat_collision = CollisionShape2D.new()
-    var plat_shape = RectangleShape2D.new()
-    plat_shape.set_extents(Vector2(unit_width * width_per_unit / 2.0, height_per_unit / 2.0))
-    plat_collision.set_shape(plat_shape)
-    platform.add_child(plat_collision)
-    add_child(platform)
-    
-    var detector = Area2D.new()
-    detector.position = Vector2(0, -detector_height)
-    detector.connect("body_entered", self, "_on_Area2D_body_entered")
-    detector.connect("body_exited", self, "_on_Area2D_body_exited")
-    detector.set_collision_layer_bit(0, false)
-    detector.set_collision_layer_bit(19, true)
-    detector.set_collision_mask_bit(0, true)
-    var detector_collision = CollisionShape2D.new()
-    var detector_shape = RectangleShape2D.new()
-    detector_shape.set_extents(Vector2(unit_width * width_per_unit / 2.0, detector_height / 2.0))
-    detector_collision.set_shape(detector_shape)
-    detector.add_child(detector_collision)
-    add_child(detector)
     
     distance = path_follow.offset
-
-func update_extents(collision):
-    var shape = collision.get_shape()
-    var extents = shape.get_extents()
-    shape.set_extents(Vector2(extents.x * unit_width, extents.y))
+    length = path.get_curve().get_baked_length()
+    init()
     
 func _process(delta):
     var pos = path_follow.position
     var pre_move_pos = Vector2(pos.x, pos.y)
     
     distance += move_speed * delta
-    path_follow.set_offset(distance)
+    
+    var unit_distances = fposmod(distance / length, 2.0)
+    if unit_distances <= 1.0:
+        path_follow.set_unit_offset(unit_distances)
+    else: # 1.0 < x <= 2.0
+        path_follow.set_unit_offset(2.0 - unit_distances)
     update()
     
-    if state == 2:
+    if state == States.CONTACTED:
         var move_offset = path_follow.position - pre_move_pos
         body_to_anchor.position += move_offset
 
-func _draw():	
+func _draw():
     if show_path:
         var points = path.get_curve().tessellate()
         for i in points.size():
@@ -88,23 +64,43 @@ func _draw():
                 var next_joint_pos = to_local(points[i+1] - Vector2(0, track_line_thickness / 2))
                 draw_line(cur_joint_pos, next_joint_pos, Color.whitesmoke, track_line_thickness, false)
     
-    var extents = plat_collision.get_shape().get_extents()
-    draw_rect(Rect2(Vector2(-extents.x, 0), 2 * extents), Color(215/255.0, 200/255.0, 0), true)
-    draw_circle(Vector2(0, -joint_radius / 2), joint_radius, Color.white)
+    var extents = calc_extents()
+    draw_rect(Rect2(-extents, 2 * extents), Color(215/255.0, 200/255.0, 0), true)
+    draw_circle(Vector2.ZERO, joint_radius, Color.white)
 
 func _on_Area2D_body_entered(body):
-    if body.get_name() == "Player" && state == 0:
-        state = 1
+    if body.get_name() == "Player" && state == States.IDLE:
+        state = States.PRE_CONTACT
         body.add_on_floor_callback(self)
 
 func _on_Area2D_body_exited(body):
     if body.get_name() == "Player":
-        state = 0
+        state = States.IDLE
         
 func on_floor_callback(body):
-    state = 2
+    state = States.CONTACTED
     body_to_anchor = body
     
 func off_floor_callback(body):
-    state = 1
+    state = States.IDLE
     body_to_anchor = null
+    
+func set_qunits_x(value: int) -> void:
+    qunits_x = value
+    init()
+    
+func set_qunits_y(value: int) -> void:
+    qunits_y = value
+    init()
+    
+func init():
+    var extents = calc_extents()
+    
+    $Area2D.set_position(Vector2(0, -detector_height / 2 - extents.y))
+    $Area2D/CollisionShape2D.get_shape().set_extents(Vector2(extents.x, detector_height / 2))
+    
+    $StaticBody2D.set_position(Vector2.ZERO)
+    $StaticBody2D/CollisionShape2D.get_shape().set_extents(extents)
+    
+func calc_extents() -> Vector2:
+    return Vector2(qunits_x, qunits_y) * (Globals.quarter_grid_size / 2)

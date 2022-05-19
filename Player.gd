@@ -6,7 +6,7 @@ export var rocket_jump_height := 1000
 export var booster_fall_speed := 100
 export var drop_speed := 20
 
-var run_speed: float
+var walk_speed: float
 var whirling_lateral_speed: float
 var whirling_fall_speed: float
 var velocity: Vector2
@@ -27,7 +27,8 @@ var launch_distance_travelled := 0.0
 
 enum PlayerState { 
     IDLE, 
-    WALKING, 
+    WALKING,
+    RUNNING,
     JUMPING, # player is hurtling through the air mobile. gravity applies
     LAUNCHED, # player is hurtling through the air. immoble. gravity applies
     HOOKED,  # hanging from a hook-like object, immoble, but can jump
@@ -47,16 +48,24 @@ func _ready() -> void:
     # Adding the player width to account for the fact that
     # we want to make jump width from players right edge upon
     # starting jump and the player's left edge upon landing. 
-    run_speed = (Globals.jump_width + (2 * Globals.player_extents.x)) / Globals.jump_and_return_time
-    whirling_lateral_speed = run_speed * Globals.whirling_lateral_move_factor
-    whirling_fall_speed = run_speed * Globals.whirling_fall_factor
+    walk_speed = (Globals.jump_width + (2 * Globals.player_extents.x)) / Globals.jump_and_return_time
+    whirling_lateral_speed = walk_speed * Globals.whirling_lateral_move_factor
+    whirling_fall_speed = walk_speed * Globals.whirling_fall_factor
         
 func _draw():
     draw_rect(Rect2(Globals.player_extents * -1, Globals.player_extents * 2), Color.violet, true)
     
 func _physics_process(delta: float) -> void:
+    print(state)
+    
     match state:
-        PlayerState.IDLE, PlayerState.WALKING, PlayerState.WHIRLING:
+        PlayerState.IDLE, PlayerState.WALKING, PlayerState.RUNNING:
+            handle_fall(delta)
+            handle_on_floor_callbacks()
+            handle_run()
+            handle_move_laterally()
+            handle_jump()
+        PlayerState.WHIRLING:
             handle_fall(delta)
             handle_on_floor_callbacks()
             handle_move_laterally()
@@ -101,20 +110,32 @@ func _physics_process(delta: float) -> void:
         handle_off_floor_callbacks()
     
 func handle_fall(delta) -> void:
-    if [PlayerState.IDLE, PlayerState.WALKING, PlayerState.JUMPING].find(state) > -1:
-        velocity.y += Globals.gravity * delta
-    elif state == PlayerState.LAUNCHED and launch_distance_travelled > distance_before_gravity:
+    if state == PlayerState.LAUNCHED and launch_distance_travelled > distance_before_gravity:
         velocity.y += Globals.gravity * delta
     elif state == PlayerState.WHIRLING:
         velocity.y = whirling_fall_speed
+    else:
+        velocity.y += Globals.gravity * delta
+        
+func handle_run() -> void:
+    if Input.is_action_pressed("run"):
+        state = PlayerState.RUNNING
+    elif on_floor:
+        state = PlayerState.IDLE
+    else:
+        state = PlayerState.JUMPING
     
 func handle_move_laterally() -> void:
     var move_right = Input.is_action_pressed("move_right")
     var move_left = Input.is_action_pressed("move_left")
     
-    var speed = run_speed
+    var speed = walk_speed
     if state == PlayerState.WHIRLING:
         speed = whirling_lateral_speed
+    elif state == PlayerState.RUNNING:
+        speed = walk_speed * Globals.run_factor
+    elif state == PlayerState.JUMPING and Input.is_action_pressed("run"):
+        speed = walk_speed * Globals.run_factor
             
     if move_right and not move_left:
         velocity.x = speed
@@ -128,19 +149,16 @@ func handle_move_laterally() -> void:
                   
 func handle_jump():
     var jump_pressed = Input.is_action_just_pressed("jump")
-    var rocket = Input.is_action_just_pressed("rocket_jump")
-    var boosters = Input.is_action_pressed("boosters")
     
-    # wall jump
-    if jump_pressed && on_wall && !wall_jump_on_cooldown:
-        jump(Vector2(velocity.x, -wall_jump_height))
-        wall_jump_on_cooldown = true
-    # ground jump
-    elif jump_pressed and [PlayerState.IDLE, PlayerState.WALKING].find(state) > -1:
-        jump(Vector2(velocity.x, -Globals.initial_jump_velocity))
+    if not jump_pressed:
+        return
+    
     # hook jump
-    elif jump_pressed and [PlayerState.HOOKED, PlayerState.WHIRLING].find(state) > -1:
+    if [PlayerState.HOOKED, PlayerState.WHIRLING].find(state) > -1:
         jump(Vector2(velocity.x, -Globals.initial_jump_velocity * Globals.hook_jump_factor))
+        # ground jump
+    else:
+        jump(Vector2(velocity.x, -Globals.initial_jump_velocity))
         
 func are_feet_on_floor() -> bool:
     var results = shoot_rays_from_feet()

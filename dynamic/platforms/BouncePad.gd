@@ -27,7 +27,7 @@ func on_floor_callback(body):
     # Adding the half the player height so the jump height is 
     # calculated from the players feet
     var launch_speed = sqrt(2 * (launch_height + Globals.player_extents.y) * Globals.gravity)
-    body.velocity = Vector2(0, -launch_speed)
+    body.jump(Vector2(body.velocity.x, -launch_speed))
     
 func set_qunits_x(value: int) -> void:
     qunits_x = value

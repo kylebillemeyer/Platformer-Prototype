@@ -24,6 +24,7 @@ collision_layer = 0
 format = 1
 
 [node name="Room" parent="." instance=ExtResource( 1 )]
+next_level_path = "prototypes/FlameWheels"
 
 [node name="Entrance" parent="Room" instance=ExtResource( 2 )]
 position = Vector2( 96, -32 )

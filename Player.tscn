@@ -32,5 +32,6 @@ drag_margin_bottom = 0.4
 editor_draw_limits = true
 editor_draw_drag_margin = true
 script = ExtResource( 3 )
+
 [connection signal="timeout" from="Rocket Cooldown Timer" to="." method="_on_rocket_cooldown_timeout"]
 [connection signal="timeout" from="Rocket Cooldown Timer" to="." method="_on_Rocket_Cooldown_Timer_timeout"]

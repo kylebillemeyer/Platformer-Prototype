@@ -9,8 +9,9 @@ var grid_size = 64
 var half_grid_size = grid_size / 2.0
 var quarter_grid_size = grid_size / 4.0
 
+var run_factor = 1.5
 var jump_height = grid_size * 4
-var jump_width = grid_size * 6
+var jump_width = grid_size * 4
 var jump_and_return_time = .75
 var hook_jump_factor = .85
 var whirling_fall_factor = .3
