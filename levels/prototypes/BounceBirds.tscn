@@ -6,9 +6,6 @@
 [ext_resource path="res://room/Room.tscn" type="PackedScene" id=4]
 [ext_resource path="res://room/Door.tscn" type="PackedScene" id=5]
 
-
-
-
 [node name="BounceBirds" type="Node2D"]
 
 [node name="StaticTileMap" type="TileMap" parent="."]

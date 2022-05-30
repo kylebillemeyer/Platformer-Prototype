@@ -9,7 +9,7 @@ func _ready():
 
 func _on_Area2D_body_entered(body):
     if body.get_name() == "Player" and body.velocity.y >= 0:
-        var launch_point_y = shape.global_position.y - shape.get_shape().get_extents().x
+        var launch_point_y = shape.global_position.y - shape.get_shape().get_extents().y
         body.global_position = Vector2(body.position.x, launch_point_y)
         
         var launch_velocity = -Globals.initial_jump_velocity * jump_reduction_factor

@@ -47,7 +47,8 @@ position = Vector2( 4960, -352 )
 curve = SubResource( 1 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Room/Path2D"]
-position = Vector2( 1024, -320 )
+position = Vector2( 1349.81, -320 )
+offset = 326.428
 rotate = false
 
 [node name="MovingPlatform" parent="Room/Path2D/PathFollow2D" instance=ExtResource( 3 )]
@@ -60,7 +61,8 @@ show_path = true
 curve = SubResource( 2 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Room/Path2D2"]
-position = Vector2( 2900, -300 )
+position = Vector2( 3016.31, -300 )
+offset = 116.335
 rotate = false
 
 [node name="MovingPlatform" parent="Room/Path2D2/PathFollow2D" instance=ExtResource( 3 )]
@@ -73,8 +75,8 @@ show_path = true
 curve = SubResource( 3 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Room/Path2D3"]
-position = Vector2( 4299.16, -300 )
-offset = 550.013
+position = Vector2( 4183.43, -300 )
+offset = 434.2
 rotate = false
 
 [node name="MovingPlatform" parent="Room/Path2D3/PathFollow2D" instance=ExtResource( 3 )]

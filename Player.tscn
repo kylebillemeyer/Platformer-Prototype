@@ -6,7 +6,8 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 1, 1 )
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 25, 25 )
 
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 15
@@ -15,7 +16,6 @@ wall_jump_height = 750
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
-script = SubResource( 2 )
 
 [node name="Rocket Cooldown Timer" type="Timer" parent="."]
 wait_time = 3.0
@@ -33,5 +33,14 @@ editor_draw_limits = true
 editor_draw_drag_margin = true
 script = ExtResource( 3 )
 
+[node name="InteractionTrigger" type="Area2D" parent="."]
+position = Vector2( 0, 7 )
+collision_layer = 0
+collision_mask = 1024
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionTrigger"]
+shape = SubResource( 2 )
 [connection signal="timeout" from="Rocket Cooldown Timer" to="." method="_on_rocket_cooldown_timeout"]
 [connection signal="timeout" from="Rocket Cooldown Timer" to="." method="_on_Rocket_Cooldown_Timer_timeout"]
+[connection signal="body_entered" from="InteractionTrigger" to="." method="_on_InteractionTrigger_body_entered"]
+[connection signal="body_exited" from="InteractionTrigger" to="." method="_on_InteractionTrigger_body_exited"]

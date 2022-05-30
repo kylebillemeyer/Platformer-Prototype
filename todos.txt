@@ -49,9 +49,24 @@ World 3
 
   Mechanics
     timer barrels - player controls the barrel but has limited time to aim
+    underwater "flashlight"
 
   Enemies
     phatom guys that throw shit 
+    high jumping dudes
+    pufferfish
+
+
+World 4
+
+  Mechanics
+    honey
+    carts
+
+  Enemies
+    crocs
+    whirly guys
+
 
 
 

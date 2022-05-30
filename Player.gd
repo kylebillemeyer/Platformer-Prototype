@@ -6,6 +6,7 @@ export var rocket_jump_height := 1000
 export var booster_fall_speed := 100
 export var drop_speed := 20
 
+var facing := 1
 var walk_speed: float
 var whirling_lateral_speed: float
 var whirling_fall_speed: float
@@ -24,6 +25,10 @@ var anchor: Node2D
 var last_position: Vector2
 var distance_before_gravity: float
 var launch_distance_travelled := 0.0
+var interactables = []
+var throwable: Node2D
+var hold_offset: Vector2
+var throw_velocity = Vector2(1500, -250)
 
 enum PlayerState { 
     IDLE, 
@@ -34,12 +39,14 @@ enum PlayerState {
     HOOKED,  # hanging from a hook-like object, immoble, but can jump
     WHIRLING, # hanging from a whirly. slowly falling. can move laterally or jump
     ANCHORED # player is immoble and can't be seen
+    HOLDING, # player is holding a throwable object
 }
 
 signal jumped
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+    process_priority = 0
     velocity = Vector2()
     rocket_timer = get_node("Rocket Cooldown Timer")
     collisionShape = get_node("CollisionShape2D")
@@ -51,19 +58,21 @@ func _ready() -> void:
     walk_speed = (Globals.jump_width + (2 * Globals.player_extents.x)) / Globals.jump_and_return_time
     whirling_lateral_speed = walk_speed * Globals.whirling_lateral_move_factor
     whirling_fall_speed = walk_speed * Globals.whirling_fall_factor
+    
+    hold_offset = .25 * Vector2(Globals.player_extents.x, -Globals.player_extents.y)
         
 func _draw():
     draw_rect(Rect2(Globals.player_extents * -1, Globals.player_extents * 2), Color.violet, true)
+    draw_circle(.5 * Vector2(Globals.player_extents.x * facing, -Globals.player_extents.y), 10, Color.red)
     
 func _physics_process(delta: float) -> void:
-    print(state)
-    
     match state:
         PlayerState.IDLE, PlayerState.WALKING, PlayerState.RUNNING:
             handle_fall(delta)
             handle_on_floor_callbacks()
             handle_run()
             handle_move_laterally()
+            handle_interact()
             handle_jump()
         PlayerState.WHIRLING:
             handle_fall(delta)
@@ -71,6 +80,7 @@ func _physics_process(delta: float) -> void:
             handle_move_laterally()
             handle_jump()
         PlayerState.JUMPING:
+            handle_throw()
             handle_fall(delta)
             handle_on_floor_callbacks()
             handle_move_laterally()
@@ -82,6 +92,13 @@ func _physics_process(delta: float) -> void:
             handle_jump()
         PlayerState.ANCHORED:
             global_position = anchor.global_position
+        PlayerState.HOLDING:
+            handle_throw()
+            handle_fall(delta)
+            handle_on_floor_callbacks()
+            handle_run()
+            handle_move_laterally()
+            handle_jump()
     
     last_position = global_position
             
@@ -99,8 +116,11 @@ func _physics_process(delta: float) -> void:
         set_global_transform(gt)
     elif (collision):
         on_floor = are_feet_on_floor()
-        state = PlayerState.IDLE
         velocity = move_and_slide(adjusted_vel, Vector2(0, -1))
+        if throwable:
+            state = PlayerState.HOLDING
+        else:
+            state = PlayerState.IDLE
     else:
         on_floor = false
         gt[2] += adjusted_vel * delta
@@ -108,6 +128,8 @@ func _physics_process(delta: float) -> void:
         
     if !on_floor:
         handle_off_floor_callbacks()
+        
+    update()
     
 func handle_fall(delta) -> void:
     if state == PlayerState.LAUNCHED and launch_distance_travelled > distance_before_gravity:
@@ -115,6 +137,7 @@ func handle_fall(delta) -> void:
     elif state == PlayerState.WHIRLING:
         velocity.y = whirling_fall_speed
     else:
+        var wtf = Globals.gravity
         velocity.y += Globals.gravity * delta
         
 func handle_run() -> void:
@@ -139,8 +162,10 @@ func handle_move_laterally() -> void:
             
     if move_right and not move_left:
         velocity.x = speed
+        facing = 1
     elif move_left and not move_right:
         velocity.x = -speed
+        facing = -1
     else:
         velocity.x = 0
         
@@ -153,12 +178,33 @@ func handle_jump():
     if not jump_pressed:
         return
     
+    # Launch point is player feet
+    var launch_point = global_position + Vector2(0, Globals.player_extents.y)
+    
     # hook jump
     if [PlayerState.HOOKED, PlayerState.WHIRLING].find(state) > -1:
-        jump(Vector2(velocity.x, -Globals.initial_jump_velocity * Globals.hook_jump_factor))
+        jump(launch_point, Vector2(velocity.x, -Globals.initial_jump_velocity * Globals.hook_jump_factor))
         # ground jump
     else:
-        jump(Vector2(velocity.x, -Globals.initial_jump_velocity))
+        jump(launch_point, Vector2(velocity.x, -Globals.initial_jump_velocity))
+        
+func handle_interact():
+    if not interactables.size():
+        return
+    
+    if Input.is_action_pressed("interact"):
+        interactables[0].interact(self)
+        interactables.remove(0)
+        
+func handle_throw():
+    if throwable and not Input.is_action_pressed("interact"):
+        throwable.throw(throw_velocity * Vector2(facing, 1))
+        throwable = null
+        
+        if on_floor:
+            state = PlayerState.IDLE
+        else:
+            state = PlayerState.JUMPING
         
 func are_feet_on_floor() -> bool:
     var results = shoot_rays_from_feet()
@@ -231,7 +277,8 @@ func kill() -> void:
     var room = find_parent("Room*")
     room.reset_level()
     
-func jump(velocity: Vector2) -> void:
+func jump(launch_point: Vector2, velocity: Vector2) -> void:
+    self.global_position = Vector2(0, -Globals.player_extents.y) + launch_point
     self.velocity = velocity
     self.state = PlayerState.JUMPING
     self.anchor = null
@@ -265,4 +312,12 @@ func anchored(anchor: Node2D) -> void:
     self.visible = false
     self.anchor = anchor
     
+func hold(throwable: Node2D) -> void:
+    self.state = PlayerState.HOLDING
+    self.throwable = throwable
 
+func _on_InteractionTrigger_body_entered(body):
+    self.interactables.append(body)
+
+func _on_InteractionTrigger_body_exited(body):
+    self.interactables.erase(body)
