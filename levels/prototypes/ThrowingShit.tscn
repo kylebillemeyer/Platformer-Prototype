@@ -4,7 +4,8 @@
 [ext_resource path="res://dynamic/dynamic_tiles.tres" type="TileSet" id=2]
 [ext_resource path="res://room/Door.tscn" type="PackedScene" id=3]
 [ext_resource path="res://room/Room.tscn" type="PackedScene" id=4]
-[ext_resource path="res://dynamic/Ball.tscn" type="PackedScene" id=5]
+[ext_resource path="res://dynamic/interactable/Ball.tscn" type="PackedScene" id=5]
+
 
 [node name="ThrowingShit" type="Node2D"]
 

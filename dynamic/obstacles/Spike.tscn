@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://sprites/obstacles/spike.png" type="Texture" id=1]
+[ext_resource path="res://sprites/dynamic/obstacles/spike.png" type="Texture" id=1]
 [ext_resource path="res://dynamic/obstacles/Spike.gd" type="Script" id=2]
+
 
 [node name="Spike" type="Node2D"]
 script = ExtResource( 2 )

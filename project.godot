@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Side Scroller Shooter"
-run/main_scene="res://levels/prototypes/Rats.tscn"
+run/main_scene="res://levels/world1/level1.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -26,9 +26,8 @@ LevelManager="*res://LevelManager.tscn"
 
 [display]
 
+window/size/width=1066
 window/size/resizable=false
-window/size/borderless=true
-window/size/fullscreen=true
 window/stretch/aspect="keep"
 
 [input]

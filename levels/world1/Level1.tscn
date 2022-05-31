@@ -1,0 +1,138 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://room/Room.tscn" type="PackedScene" id=1]
+[ext_resource path="res://room/Door.tscn" type="PackedScene" id=2]
+[ext_resource path="res://dynamic/dynamic_tiles.tres" type="TileSet" id=3]
+[ext_resource path="res://levels/StaticTileset.tres" type="TileSet" id=4]
+[ext_resource path="res://dynamic/enemies/Rat.tscn" type="PackedScene" id=5]
+[ext_resource path="res://dynamic/platforms/OneWayPlatform.tscn" type="PackedScene" id=6]
+[ext_resource path="res://dynamic/interactable/Coin.tscn" type="PackedScene" id=7]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 2720, -32, 0, 0, 0, 0, 96, -32 )
+}
+
+[sub_resource type="Curve2D" id=2]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 6944, -544, 0, 0, 0, 0, 7136, -544 )
+}
+
+[node name="Level1" type="Node2D"]
+
+[node name="StaticTileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 4 )
+collision_layer = 4
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( -1114112, 3, 0, -1048576, 3, 0, -983040, 3, 0, -917504, 3, 0, -851968, 3, 0, -786432, 3, 0, -720896, 3, 0, -655360, 3, 0, -589824, 3, 0, -524288, 3, 0, -524207, 4, 0, -524206, 5, 0, -524205, 5, 0, -524204, 5, 0, -524203, 5, 0, -524202, 5, 0, -524201, 5, 0, -524200, 5, 0, -524199, 5, 0, -524198, 5, 0, -524197, 5, 0, -524196, 5, 0, -524195, 6, 0, -524190, 4, 0, -524189, 5, 0, -524188, 5, 0, -524187, 5, 0, -524186, 5, 0, -524185, 6, 0, -524180, 4, 0, -524179, 5, 0, -524178, 5, 0, -524177, 6, 0, -524172, 4, 0, -524171, 5, 0, -524170, 5, 0, -524169, 5, 0, -524168, 5, 0, -524167, 6, 0, -458752, 3, 0, -458671, 3, 0, -458670, 3, 0, -458669, 3, 0, -458668, 3, 0, -458667, 3, 0, -458666, 3, 0, -458665, 3, 0, -458664, 3, 0, -458663, 3, 0, -458662, 3, 0, -458661, 3, 0, -458660, 3, 0, -458659, 3, 0, -458654, 3, 0, -458653, 3, 0, -458652, 3, 0, -458651, 3, 0, -458650, 3, 0, -458649, 3, 0, -458644, 3, 0, -458643, 3, 0, -458642, 3, 0, -458641, 3, 0, -458636, 3, 0, -458635, 3, 0, -458634, 3, 0, -458633, 3, 0, -458632, 3, 0, -458631, 3, 0, -393216, 3, 0, -393135, 3, 0, -393134, 3, 0, -393133, 3, 0, -393132, 3, 0, -393131, 3, 0, -393130, 3, 0, -393129, 3, 0, -393128, 3, 0, -393127, 3, 0, -393126, 3, 0, -393125, 3, 0, -393124, 3, 0, -393123, 3, 0, -393118, 3, 0, -393117, 3, 0, -393116, 3, 0, -393115, 3, 0, -393114, 3, 0, -393113, 3, 0, -393108, 3, 0, -393107, 3, 0, -393106, 3, 0, -393105, 3, 0, -393100, 3, 0, -393099, 3, 0, -393098, 3, 0, -393097, 3, 0, -393096, 3, 0, -393095, 3, 0, -327680, 3, 0, -327599, 3, 0, -327598, 3, 0, -327597, 3, 0, -327596, 3, 0, -327595, 3, 0, -327594, 3, 0, -327593, 3, 0, -327592, 3, 0, -327591, 3, 0, -327590, 3, 0, -327589, 3, 0, -327588, 3, 0, -327587, 3, 0, -327582, 3, 0, -327581, 3, 0, -327580, 3, 0, -327579, 3, 0, -327578, 3, 0, -327577, 3, 0, -327572, 3, 0, -327571, 3, 0, -327570, 3, 0, -327569, 3, 0, -327564, 3, 0, -327563, 3, 0, -327562, 3, 0, -327561, 3, 0, -327560, 3, 0, -327559, 3, 0, -262144, 3, 0, -262063, 3, 0, -262062, 3, 0, -262061, 3, 0, -262060, 3, 0, -262059, 3, 0, -262058, 3, 0, -262057, 3, 0, -262056, 3, 0, -262055, 3, 0, -262054, 3, 0, -262053, 3, 0, -262052, 3, 0, -262051, 3, 0, -262046, 3, 0, -262045, 3, 0, -262044, 3, 0, -262043, 3, 0, -262042, 3, 0, -262041, 3, 0, -262036, 3, 0, -262035, 3, 0, -262034, 3, 0, -262033, 3, 0, -262028, 3, 0, -262027, 3, 0, -262026, 3, 0, -262025, 3, 0, -262024, 3, 0, -262023, 3, 0, -196608, 3, 0, -196527, 3, 0, -196526, 3, 0, -196525, 3, 0, -196524, 3, 0, -196523, 3, 0, -196522, 3, 0, -196521, 3, 0, -196520, 3, 0, -196519, 3, 0, -196518, 3, 0, -196517, 3, 0, -196516, 3, 0, -196515, 3, 0, -196510, 3, 0, -196509, 3, 0, -196508, 3, 0, -196507, 3, 0, -196506, 3, 0, -196505, 3, 0, -196500, 3, 0, -196499, 3, 0, -196498, 3, 0, -196497, 3, 0, -196492, 3, 0, -196491, 3, 0, -196490, 3, 0, -196489, 3, 0, -196488, 3, 0, -196487, 3, 0, -131072, 3, 0, -130991, 3, 0, -130990, 3, 0, -130989, 3, 0, -130988, 3, 0, -130987, 3, 0, -130986, 3, 0, -130985, 3, 0, -130984, 3, 0, -130983, 3, 0, -130982, 3, 0, -130981, 3, 0, -130980, 3, 0, -130979, 3, 0, -130974, 3, 0, -130973, 3, 0, -130972, 3, 0, -130971, 3, 0, -130970, 3, 0, -130969, 3, 0, -130964, 3, 0, -130963, 3, 0, -130962, 3, 0, -130961, 3, 0, -130956, 3, 0, -130955, 3, 0, -130954, 3, 0, -130953, 3, 0, -130952, 3, 0, -130951, 3, 0, -65536, 3, 0, -65455, 3, 0, -65454, 3, 0, -65453, 3, 0, -65452, 3, 0, -65451, 3, 0, -65450, 3, 0, -65449, 3, 0, -65448, 3, 0, -65447, 3, 0, -65446, 3, 0, -65445, 3, 0, -65444, 3, 0, -65443, 3, 0, -65438, 3, 0, -65437, 3, 0, -65436, 3, 0, -65435, 3, 0, -65434, 3, 0, -65433, 3, 0, -65428, 3, 0, -65427, 3, 0, -65426, 3, 0, -65425, 3, 0, -65420, 3, 0, -65419, 3, 0, -65418, 3, 0, -65417, 3, 0, -65416, 3, 0, -65415, 3, 0, 0, 3, 0, 1, 5, 0, 2, 5, 0, 3, 5, 0, 4, 5, 0, 5, 5, 0, 6, 5, 0, 7, 5, 0, 8, 5, 0, 9, 5, 0, 10, 5, 0, 11, 5, 0, 12, 5, 0, 13, 5, 0, 14, 5, 0, 15, 5, 0, 16, 5, 0, 17, 5, 0, 18, 5, 0, 19, 5, 0, 20, 5, 0, 21, 5, 0, 22, 5, 0, 23, 5, 0, 24, 5, 0, 25, 5, 0, 26, 5, 0, 27, 5, 0, 28, 5, 0, 29, 5, 0, 30, 5, 0, 31, 5, 0, 32, 5, 0, 33, 5, 0, 34, 5, 0, 35, 5, 0, 36, 5, 0, 37, 5, 0, 38, 5, 0, 39, 5, 0, 40, 5, 0, 41, 5, 0, 42, 5, 0, 46, 5, 0, 47, 5, 0, 48, 5, 0, 49, 5, 0, 50, 5, 0, 51, 5, 0, 52, 5, 0, 53, 5, 0, 54, 5, 0, 55, 5, 0, 56, 5, 0, 57, 5, 0, 65, 5, 0, 66, 5, 0, 67, 5, 0, 68, 5, 0, 69, 5, 0, 70, 5, 0, 71, 5, 0, 72, 5, 0, 73, 5, 0, 74, 5, 0, 75, 5, 0, 76, 5, 0, 77, 5, 0, 78, 5, 0, 79, 5, 0, 80, 5, 0, 81, 3, 0, 82, 3, 0, 83, 3, 0, 84, 3, 0, 85, 3, 0, 86, 3, 0, 87, 3, 0, 88, 3, 0, 89, 3, 0, 90, 3, 0, 91, 3, 0, 92, 3, 0, 93, 3, 0, 98, 3, 0, 99, 3, 0, 100, 3, 0, 101, 3, 0, 102, 3, 0, 103, 3, 0, 108, 3, 0, 109, 3, 0, 110, 3, 0, 111, 3, 0, 116, 3, 0, 117, 3, 0, 118, 3, 0, 119, 3, 0, 120, 3, 0, 121, 3, 0, 122, 5, 0, 123, 5, 0, 124, 5, 0, 125, 5, 0, 126, 5, 0, 127, 5, 0, 128, 5, 0, 129, 5, 0, 130, 5, 0, 131, 5, 0, 132, 5, 0, 133, 5, 0, 134, 5, 0, 135, 5, 0, 136, 5, 0, 137, 5, 0, 138, 5, 0, 139, 5, 0, 140, 5, 0, 141, 5, 0, 142, 5, 0, 143, 5, 0 )
+
+[node name="DynamicTileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 3 )
+collision_layer = 0
+format = 1
+tile_data = PoolIntArray( 43, 2, 0, 44, 2, 0, 45, 2, 0, 58, 2, 0, 59, 2, 0, 60, 2, 0, 61, 2, 0, 62, 2, 0, 63, 2, 0, 64, 2, 0, 94, 2, 0, 95, 2, 0, 96, 2, 0, 97, 2, 0, 104, 2, 0, 105, 2, 0, 106, 2, 0, 107, 2, 0, 112, 2, 0, 113, 2, 0, 114, 2, 0, 115, 2, 0 )
+
+[node name="Room" parent="." instance=ExtResource( 1 )]
+next_level_path = "world1/level2"
+
+[node name="Entrance" parent="Room" instance=ExtResource( 2 )]
+position = Vector2( 5280, -544 )
+
+[node name="Exit" parent="Room" instance=ExtResource( 2 )]
+position = Vector2( -224, -32 )
+
+[node name="P1_1" type="Node2D" parent="Room"]
+
+[node name="RatGroup1" type="Node2D" parent="Room/P1_1"]
+
+[node name="Path" type="Path2D" parent="Room/P1_1/RatGroup1"]
+curve = SubResource( 1 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Room/P1_1/RatGroup1/Path"]
+position = Vector2( 1008.74, -32 )
+offset = 1727.44
+rotate = false
+
+[node name="Rat" parent="Room/P1_1/RatGroup1/Path/PathFollow2D" instance=ExtResource( 5 )]
+move_speed = 300.0
+offset = 256.0
+
+[node name="Path2" type="Path2D" parent="Room/P1_1/RatGroup1"]
+curve = SubResource( 1 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Room/P1_1/RatGroup1/Path2"]
+position = Vector2( 883.571, -32 )
+offset = 1855.44
+rotate = false
+
+[node name="Rat2" parent="Room/P1_1/RatGroup1/Path2/PathFollow2D" instance=ExtResource( 5 )]
+move_speed = 300.0
+offset = 128.0
+
+[node name="Path3" type="Path2D" parent="Room/P1_1/RatGroup1"]
+curve = SubResource( 1 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Room/P1_1/RatGroup1/Path3"]
+position = Vector2( 759.352, -32 )
+offset = 1983.44
+rotate = false
+
+[node name="Rat3" parent="Room/P1_1/RatGroup1/Path3/PathFollow2D" instance=ExtResource( 5 )]
+move_speed = 300.0
+
+[node name="OneWayPlatform" parent="Room/P1_1" instance=ExtResource( 6 )]
+position = Vector2( 4544, -256 )
+qunits_x = 28
+qunits_y = 4
+
+[node name="CG1" type="Node2D" parent="Room/P1_1"]
+
+[node name="Coin" parent="Room/P1_1/CG1" instance=ExtResource( 7 )]
+position = Vector2( 1184, -32 )
+
+[node name="Coin2" parent="Room/P1_1/CG1" instance=ExtResource( 7 )]
+position = Vector2( 1248, -32 )
+
+[node name="Coin3" parent="Room/P1_1/CG1" instance=ExtResource( 7 )]
+position = Vector2( 1312, -32 )
+
+[node name="Coin2" parent="Room/P1_1" instance=ExtResource( 7 )]
+position = Vector2( 2848, -288 )
+
+[node name="CG3" type="Node2D" parent="Room/P1_1"]
+
+[node name="Coin2" parent="Room/P1_1/CG3" instance=ExtResource( 7 )]
+position = Vector2( 3872, -288 )
+
+[node name="Coin3" parent="Room/P1_1/CG3" instance=ExtResource( 7 )]
+position = Vector2( 4000, -288 )
+
+[node name="Coin4" parent="Room/P1_1/CG3" instance=ExtResource( 7 )]
+position = Vector2( 4768, -672 )
+
+[node name="P1_2" type="Node2D" parent="Room"]
+
+[node name="RatGroup1" type="Path2D" parent="Room/P1_2"]
+curve = SubResource( 2 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Room/P1_2/RatGroup1"]
+position = Vector2( 6964.36, -544 )
+offset = 20.3601
+
+[node name="Rat" parent="Room/P1_2/RatGroup1/PathFollow2D" instance=ExtResource( 5 )]
+
+[node name="Coin" parent="Room/P1_2" instance=ExtResource( 7 )]
+position = Vector2( 7040, -544 )
+
+[node name="Coin2" parent="Room/P1_2" instance=ExtResource( 7 )]
+position = Vector2( 8224, -480 )
+
+[node name="Coin3" parent="Room/P1_2" instance=ExtResource( 7 )]
+position = Vector2( 8224, -416 )
+
+[node name="Coin4" parent="Room/P1_2" instance=ExtResource( 7 )]
+position = Vector2( 8224, -352 )
+
+[node name="Coin5" parent="Room/P1_2" instance=ExtResource( 7 )]
+position = Vector2( 8224, -288 )

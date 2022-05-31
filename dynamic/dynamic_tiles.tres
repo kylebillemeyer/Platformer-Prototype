@@ -1,6 +1,8 @@
 [gd_resource type="TileSet" load_steps=2 format=2]
 
-[ext_resource path="res://sprites/obstacles/dyanmic_tiles.png" type="Texture" id=1]
+[ext_resource path="res://sprites/dynamic/dyanmic_tiles.png" type="Texture" id=1]
+
+
 
 [resource]
 0/name = "dyanmic_tiles.png 0"

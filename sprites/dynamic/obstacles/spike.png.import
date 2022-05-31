@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/spritesheet_complete.png-497bad5155d5c31d7857757947ee4d12.stex"
+path="res://.import/spike.png-ea7417a6172a914d78c75ef560f5dbac.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/obstacles/spritesheet_complete.png"
-dest_files=[ "res://.import/spritesheet_complete.png-497bad5155d5c31d7857757947ee4d12.stex" ]
+source_file="res://sprites/dynamic/obstacles/spike.png"
+dest_files=[ "res://.import/spike.png-ea7417a6172a914d78c75ef560f5dbac.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

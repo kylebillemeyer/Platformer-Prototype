@@ -29,6 +29,7 @@ var interactables = []
 var throwable: Node2D
 var hold_offset: Vector2
 var throw_velocity = Vector2(1500, -250)
+var coins = 0
 
 enum PlayerState { 
     IDLE, 
@@ -321,3 +322,6 @@ func _on_InteractionTrigger_body_entered(body):
 
 func _on_InteractionTrigger_body_exited(body):
     self.interactables.erase(body)
+    
+func add_coin():
+    coins += 1

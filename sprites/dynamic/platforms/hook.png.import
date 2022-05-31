@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hook.png-5478e84542fceb8863085d8c2af83fd6.stex"
+path="res://.import/hook.png-a41981b134c0bfea919ca14879ff2f3a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/obstacles/hook.png"
-dest_files=[ "res://.import/hook.png-5478e84542fceb8863085d8c2af83fd6.stex" ]
+source_file="res://sprites/dynamic/platforms/hook.png"
+dest_files=[ "res://.import/hook.png-a41981b134c0bfea919ca14879ff2f3a.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

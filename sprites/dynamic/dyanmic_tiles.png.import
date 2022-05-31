@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/rat.png-636463834d40f47a72b6be1333a0e5af.stex"
+path="res://.import/dyanmic_tiles.png-c71e0db59816aa1ac8ca449faa90c3a0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/obstacles/enemies/rat.png"
-dest_files=[ "res://.import/rat.png-636463834d40f47a72b6be1333a0e5af.stex" ]
+source_file="res://sprites/dynamic/dyanmic_tiles.png"
+dest_files=[ "res://.import/dyanmic_tiles.png-c71e0db59816aa1ac8ca449faa90c3a0.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

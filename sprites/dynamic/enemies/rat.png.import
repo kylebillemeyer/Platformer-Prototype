@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/redirectionb_barrel.png-305c423f743c7ad8752e16756dd6cd49.stex"
+path="res://.import/rat.png-8c909076b153267a5e88c9221e0ad5b9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/obstacles/redirectionb_barrel.png"
-dest_files=[ "res://.import/redirectionb_barrel.png-305c423f743c7ad8752e16756dd6cd49.stex" ]
+source_file="res://sprites/dynamic/enemies/rat.png"
+dest_files=[ "res://.import/rat.png-8c909076b153267a5e88c9221e0ad5b9.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

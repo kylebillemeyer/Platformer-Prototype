@@ -1,14 +1,20 @@
+tool
 extends Node2D
+
+export var move_speed := 200.0
+export var offset := 0.0
 
 var jump_factor := 1.0
 var player_danger := false
 
 onready var path_follow = get_parent()
 onready var path = path_follow.get_parent()
-onready var distance = path_follow.offset
+onready var distance = offset
 onready var length = path.get_curve().get_baked_length()
     
 func _process(delta):
+    distance += move_speed * delta
+    
     var unit_distances = fposmod(distance / length, 2.0)
     if unit_distances <= 1.0:
         path_follow.set_unit_offset(unit_distances)
